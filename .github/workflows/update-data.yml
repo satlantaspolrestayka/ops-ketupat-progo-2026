@@ -1,17 +1,20 @@
 name: Process Parking Updates
 
 on:
-  # Run every 5 minutes
+  # Run setiap 2 menit untuk real-time
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/2 * * * *'
   
-  # Can also be triggered manually
+  # Juga bisa di-trigger manual
   workflow_dispatch:
     inputs:
-      force_update:
-        description: 'Force update all data'
+      force:
+        description: 'Force process all pending updates'
         required: false
         default: 'false'
+
+permissions:
+  contents: write
 
 jobs:
   process-updates:
@@ -19,89 +22,84 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         fetch-depth: 0
         
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'
         
-    - name: Install dependencies
-      run: |
-        npm init -y
-        npm install axios
-        
-    - name: Process parking updates
+    - name: Process updates from GitHub Issues
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO: ${{ github.repository }}
       run: |
-        node << 'EOF'
+        # Script untuk proses update
+        cat > process-updates.js << 'EOF'
         const fs = require('fs');
         const path = require('path');
         
-        console.log('🚗 Memulai proses update data parkir Ops Ketupat 2026...');
+        console.log('🚗 Processing parking updates...');
         
-        // Path files
-        const dataPath = path.join(__dirname, 'data/parkir-data.json');
-        const updatesPath = path.join(__dirname, 'data/updates/pending-updates.json');
-        const archiveDir = path.join(__dirname, 'data/updates/archive');
+        // File paths
+        const dataPath = path.join(process.cwd(), 'data/parkir-data.json');
+        const pendingPath = path.join(process.cwd(), 'data/pending-updates.json');
         
-        // Buat folder archive jika belum ada
-        if (!fs.existsSync(archiveDir)) {
-          fs.mkdirSync(archiveDir, { recursive: true });
+        // Load main data
+        let mainData;
+        try {
+          mainData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+          console.log('✅ Loaded main data');
+        } catch (error) {
+          console.error('❌ Failed to load main data:', error);
+          process.exit(1);
         }
         
-        // Baca data utama
-        let mainData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-        
-        // Baca pending updates
-        let updates = [];
-        if (fs.existsSync(updatesPath)) {
-          updates = JSON.parse(fs.readFileSync(updatesPath, 'utf8'));
-        }
-        
-        console.log(`📊 Ditemukan ${updates.length} update yang menunggu`);
-        
-        // Proses setiap update
-        const processedUpdates = [];
-        const failedUpdates = [];
-        
-        for (const update of updates) {
+        // Load pending updates
+        let pendingUpdates = [];
+        if (fs.existsSync(pendingPath)) {
           try {
-            // Validasi update
+            pendingUpdates = JSON.parse(fs.readFileSync(pendingPath, 'utf8'));
+            console.log(`📋 Found ${pendingUpdates.length} pending updates`);
+          } catch (error) {
+            console.error('❌ Failed to load pending updates:', error);
+          }
+        }
+        
+        // Process each pending update
+        const processed = [];
+        const failed = [];
+        
+        for (const update of pendingUpdates) {
+          try {
             if (!update.location_id || !update.petugas_name) {
-              throw new Error('Data update tidak valid');
+              throw new Error('Invalid update data');
             }
             
-            // Cari lokasi
-            const locationIndex = mainData.locations.findIndex(
-              loc => loc.id === update.location_id
-            );
-            
-            if (locationIndex === -1) {
-              throw new Error(`Lokasi ${update.location_id} tidak ditemukan`);
+            // Find location
+            const location = mainData.locations.find(l => l.id === update.location_id);
+            if (!location) {
+              throw new Error(`Location ${update.location_id} not found`);
             }
             
-            // Update kapasitas
-            const location = mainData.locations[locationIndex];
-            
+            // Update capacities
             if (update.bus !== undefined) {
-              location.bus.available = update.bus;
+              location.bus.available = parseInt(update.bus);
               location.bus.last_update = new Date().toISOString();
               location.bus.updated_by = update.petugas_name;
             }
             
             if (update.mobil !== undefined) {
-              location.mobil.available = update.mobil;
+              location.mobil.available = parseInt(update.mobil);
               location.mobil.last_update = new Date().toISOString();
               location.mobil.updated_by = update.petugas_name;
             }
             
             if (update.motor !== undefined) {
-              location.motor.available = update.motor;
+              location.motor.available = parseInt(update.motor);
               location.motor.last_update = new Date().toISOString();
               location.motor.updated_by = update.petugas_name;
             }
@@ -110,63 +108,51 @@ jobs:
               location.notes = update.notes;
             }
             
-            // Update status jika perlu
-            const totalCapacity = (location.bus.total || 0) + 
-                                 (location.mobil.total || 0) + 
-                                 (location.motor.total || 0);
-            const availableCapacity = (location.bus.available || 0) + 
-                                     (location.mobil.available || 0) + 
-                                     (location.motor.available || 0);
-            
-            if (availableCapacity === 0 && totalCapacity > 0) {
-              location.status = 'full';
-            } else if (availableCapacity / totalCapacity < 0.1) {
-              location.status = 'almost_full';
-            } else {
-              location.status = 'open';
-            }
-            
+            // Mark as processed
             update.processed_at = new Date().toISOString();
             update.status = 'processed';
-            processedUpdates.push(update);
+            processed.push(update);
             
-            console.log(`✅ Updated: ${location.nama} (Petugas: ${update.petugas_name})`);
+            console.log(`✅ Updated ${location.nama}`);
             
           } catch (error) {
-            console.error(`❌ Gagal memproses update:`, error.message);
+            console.error(`❌ Failed to process update:`, error.message);
             update.error = error.message;
             update.status = 'failed';
-            failedUpdates.push(update);
+            failed.push(update);
           }
         }
         
         // Update statistics
-        let totalAvailableBus = 0;
-        let totalAvailableMobil = 0;
-        let totalAvailableMotor = 0;
+        const stats = mainData.locations.reduce((acc, loc) => {
+          acc.bus += loc.bus.available || 0;
+          acc.mobil += loc.mobil.available || 0;
+          acc.motor += loc.motor.available || 0;
+          return acc;
+        }, { bus: 0, mobil: 0, motor: 0 });
         
-        mainData.locations.forEach(location => {
-          totalAvailableBus += location.bus.available || 0;
-          totalAvailableMobil += location.mobil.available || 0;
-          totalAvailableMotor += location.motor.available || 0;
-        });
-        
-        mainData.statistics = {
-          ...mainData.statistics,
-          total_available_bus: totalAvailableBus,
-          total_available_mobil: totalAvailableMobil,
-          total_available_motor: totalAvailableMotor,
-          update_count_today: (mainData.statistics.update_count_today || 0) + processedUpdates.length,
-          last_processed: new Date().toISOString()
-        };
+        mainData.statistics.total_available_bus = stats.bus;
+        mainData.statistics.total_available_mobil = stats.mobil;
+        mainData.statistics.total_available_motor = stats.motor;
+        mainData.statistics.update_count_today = (mainData.statistics.update_count_today || 0) + processed.length;
+        mainData.statistics.last_processed = new Date().toISOString();
         
         mainData.metadata.last_updated = new Date().toISOString();
         mainData.metadata.updated_by = 'GitHub Actions';
         
-        // Simpan data utama
+        // Save updated data
         fs.writeFileSync(dataPath, JSON.stringify(mainData, null, 2));
+        console.log('💾 Saved updated data');
         
-        // Archive processed updates
+        // Save failed updates back (retry later)
+        fs.writeFileSync(pendingPath, JSON.stringify(failed, null, 2));
+        
+        // Create archive
+        const archiveDir = path.join(process.cwd(), 'data/updates/archive');
+        if (!fs.existsSync(archiveDir)) {
+          fs.mkdirSync(archiveDir, { recursive: true });
+        }
+        
         const today = new Date().toISOString().split('T')[0];
         const archiveFile = path.join(archiveDir, `updates-${today}.json`);
         
@@ -175,39 +161,25 @@ jobs:
           archiveData = JSON.parse(fs.readFileSync(archiveFile, 'utf8'));
         }
         
-        archiveData.push(...processedUpdates);
+        archiveData.push(...processed);
         fs.writeFileSync(archiveFile, JSON.stringify(archiveData, null, 2));
         
-        // Reset pending updates (simpan yang failed)
-        fs.writeFileSync(updatesPath, JSON.stringify(failedUpdates, null, 2));
-        
-        console.log('\n🎉 PROSES SELESAI');
-        console.log(`✅ Berhasil diproses: ${processedUpdates.length}`);
-        console.log(`❌ Gagal diproses: ${failedUpdates.length}`);
-        console.log(`🚌 Total bus tersedia: ${totalAvailableBus}`);
-        console.log(`🚗 Total mobil tersedia: ${totalAvailableMobil}`);
-        console.log(`🏍️ Total motor tersedia: ${totalAvailableMotor}`);
-        console.log(`🕐 Waktu: ${new Date().toLocaleTimeString('id-ID')}`);
-        
-        // Commit dan push perubahan
-        const execSync = require('child_process').execSync;
-        
-        execSync('git config --global user.email "actions@github.com"');
-        execSync('git config --global user.name "GitHub Actions"');
-        
-        execSync('git add .');
-        execSync('git commit -m "🔄 Update data parkir Ops Ketupat 2026 [auto]" || echo "No changes to commit"');
-        execSync('git push');
+        console.log('\n📊 SUMMARY:');
+        console.log(`✅ Processed: ${processed.length}`);
+        console.log(`❌ Failed: ${failed.length}`);
+        console.log(`🚌 Bus available: ${stats.bus}`);
+        console.log(`🚗 Mobil available: ${stats.mobil}`);
+        console.log(`🏍️ Motor available: ${stats.motor}`);
         
         EOF
         
-    - name: Create summary
-      if: always()
+        node process-updates.js
+        
+    - name: Commit and push changes
       run: |
-        echo "## Update Data Parkir Ops Ketupat 2026" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "**Waktu Proses:** $(date)" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "Sistem berjalan setiap 5 menit untuk memproses update dari petugas." >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "🔗 Aplikasi publik: https://YOUR_USERNAME.github.io/ops-ketupat-progo-2026/" >> $GITHUB_STEP_SUMMARY
+        git config --global user.email "actions@github.com"
+        git config --global user.name "GitHub Actions"
+        
+        git add .
+        git commit -m "🔄 Auto-update parking data [$(date +'%H:%M')]" || echo "No changes to commit"
+        git push
