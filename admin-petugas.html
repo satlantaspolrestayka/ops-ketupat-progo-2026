@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Input Parkir - Petugas Ops Ketupat Progo 2026</title>
+    <style>
+        :root {
+            --primary: #059669;
+            --primary-dark: #047857;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-800: #1f2937;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--gray-100);
+        }
+        
+        .header h1 {
+            color: var(--gray-800);
+            margin-bottom: 8px;
+            font-size: 24px;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .access-screen, .admin-panel {
+            transition: opacity 0.3s;
+        }
+        
+        .access-screen.hidden, .admin-panel.hidden {
+            display: none;
+        }
+        
+        .access-screen {
+            text-align: center;
+        }
+        
+        .access-logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+            background: var(--gray-50);
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-800);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+        
+        .error-message {
+            color: var(--danger);
+            font-size: 14px;
+            margin-top: 8px;
+            text-align: center;
+            display: none;
+        }
+        
+        .petugas-info {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .petugas-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .petugas-location {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--danger);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .kapasitas-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .kap-input {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .kap-input.active {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.1);
+        }
+        
+        .kap-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .kap-label {
+            font-size: 14px;
+            color: var(--gray-800);
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .kap-input input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-800);
+            padding: 0;
+        }
+        
+        .kap-input input:focus {
+            outline: none;
+        }
+        
+        .status-message {
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+        
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid var(--gray-100);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .update-history {
+            margin-top: 30px;
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .update-history h3 {
+            margin-bottom: 15px;
+            color: var(--gray-800);
+        }
+        
+        .history-item {
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .kapasitas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logout-btn {
+                position: static;
+                width: 100%;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Access Screen -->
+        <div class="access-screen" id="accessScreen">
+            <div class="access-logo">🔐</div>
+            <div class="header">
+                <h1>AKSES PETUGAS LAPANGAN</h1>
+                <p>Masukkan kode akses yang diberikan</p>
+            </div>
+            
+            <div class="input-group">
+                <label for="accessCode">Kode Petugas</label>
+                <input 
+                    type="password" 
+                    id="accessCode" 
+                    placeholder="Contoh: P001SEN"
+                    maxlength="7"
+                >
+                <p style="font-size: 12px; color: #6b7280; margin-top: 5px;">
+                    *Kode 7 digit (P + 3 angka + inisial lokasi)
+                </p>
+            </div>
+            
+            <div class="input-group">
+                <label for="locationSelect">Atau pilih lokasi</label>
+                <select id="locationSelect" onchange="selectLocation()">
+                    <option value="">-- Pilih Lokasi --</option>
+                    <option value="SENOPATI">SENOPATI</option>
+                    <option value="NGABEAN">NGABEAN</option>
+                    <option value="SRI WEDANI">SRI WEDANI</option>
+                    <option value="SPRAGA">SPRAGA</option>
+                    <option value="RAMAI MALL">RAMAI MALL</option>
+                    <option value="GRAND ZURI">GRAND ZURI</option>
+                    <option value="EX MENARA CAFE">EX MENARA CAFE</option>
+                    <option value="MALIOBORO II">MALIOBORO II</option>
+                    <option value="MALIOBORO III">MALIOBORO III</option>
+                    <option value="UTARA CAVINTON">UTARA CAVINTON</option>
+                    <option value="GEMBIRA LOKA">GEMBIRA LOKA</option>
+                    <option value="KAWULA ALIT">KAWULA ALIT</option>
+                    <option value="PARKIRAN KOMANDO">PARKIRAN KOMANDO</option>
+                    <option value="EKS TRIO">EKS TRIO</option>
+                    <option value="STADION KRIDOSONO">STADION KRIDOSONO</option>
+                </select>
+            </div>
+            
+            <button class="btn btn-primary" onclick="login()">
+                MASUK SEBAGAI PETUGAS
+            </button>
+            
+            <div class="error-message" id="errorMessage">
+                Kode akses salah! Periksa kembali.
+            </div>
+        </div>
+        
+        <!-- Admin Panel -->
+        <div class="admin-panel hidden" id="adminPanel">
+            <button class="logout-btn" onclick="logout()">
+                LOGOUT
+            </button>
+            
+            <div class="petugas-info" id="petugasInfo">
+                <!-- Diisi oleh JavaScript -->
+            </div>
+            
+            <div class="header">
+                <h1>UPDATE KAPASITAS PARKIR</h1>
+                <p>Input jumlah kendaraan yang tersedia</p>
+            </div>
+            
+            <div id="locationData">
+                <!-- Diisi oleh JavaScript -->
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Mengirim data...</p>
+            </div>
+            
+            <div class="status-message" id="statusMessage"></div>
+            
+            <div class="update-history" id="updateHistory">
+                <h3>📋 Riwayat Update Terakhir</h3>
+                <div id="historyList">
+                    <!-- Diisi oleh JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ====== KONFIGURASI ======
+        const CONFIG = {
+            // Kode akses petugas: P[001-999][SEN,NGA,SRI,SPR,etc]
+            VALID_CODES: {
+                'P001SEN': { name: "Budi Santoso", location: "SENOPATI", id: 1 },
+                'P002NGA': { name: "Sari Wijaya", location: "NGABEAN", id: 2 },
+                'P003SRI': { name: "Agus Pratama", location: "SRI WEDANI", id: 3 },
+                'P004SPR': { name: "Dewi Lestari", location: "SPRAGA", id: 4 },
+                'P005RAM': { name: "Joko Susilo", location: "RAMAI MALL", id: 5 },
+                'P006GRZ': { name: "Linda Hartati", location: "GRAND ZURI", id: 6 },
+                'P007EXM': { name: "Rudi Hermawan", location: "EX MENARA CAFE", id: 7 },
+                'P008MAL': { name: "Maya Indah", location: "MALIOBORO II", id: 8 },
+                'P009MA3': { name: "Ahmad Fauzi", location: "MALIOBORO III", id: 9 },
+                'P010UTA': { name: "Siti Nurhaliza", location: "UTARA CAVINTON", id: 10 },
+                'P011GEM': { name: "Hendra Setiawan", location: "GEMBIRA LOKA", id: 11 },
+                'P012KAW': { name: "Rina Novita", location: "KAWULA ALIT", id: 12 },
+                'P013PAR': { name: "Andi Saputra", location: "PARKIRAN KOMANDO", id: 13 },
+                'P014EKS': { name: "Dian Pertiwi", location: "EKS TRIO", id: 14 },
+                'P015KRI': { name: "Eko Prasetyo", location: "STADION KRIDOSONO", id: 15 }
+            },
+            
+            // GitHub Configuration
+            GITHUB_REPO: 'your-username/ops-ketupat-progo-2026',
+            DATA_FILE: 'data/parkir-data.json',
+            
+            // Session timeout (8 jam)
+            SESSION_TIMEOUT: 8 * 60 * 60 * 1000
+        };
+        
+        // State management
+        let currentUser = null;
+        let currentLocationData = null;
+        
+        // ====== FUNGSI LOGIN ======
+        function login() {
+            const accessCode = document.getElementById('accessCode').value.toUpperCase();
+            const locationSelect = document.getElementById('locationSelect').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Reset error
+            errorMessage.style.display = 'none';
+            
+            // Validasi input
+            let userData = null;
+            
+            if (accessCode && CONFIG.VALID_CODES[accessCode]) {
+                userData = CONFIG.VALID_CODES[accessCode];
+            } else if (locationSelect) {
+                // Cari user berdasarkan lokasi
+                const foundCode = Object.keys(CONFIG.VALID_CODES).find(code => 
+                    CONFIG.VALID_CODES[code].location === locationSelect
+                );
+                if (foundCode) {
+                    userData = CONFIG.VALID_CODES[foundCode];
+                }
+            }
+            
+            if (userData) {
+                // Set current user
+                currentUser = {
+                    ...userData,
+                    loginTime: Date.now()
+                };
+                
+                // Save to localStorage
+                localStorage.setItem('petugas_session', JSON.stringify(currentUser));
+                
+                // Show admin panel
+                document.getElementById('accessScreen').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                
+                // Load data
+                loadPetugasData();
+                loadLocationData();
+                
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        }
+        
+        function selectLocation() {
+            const locationSelect = document.getElementById('locationSelect').value;
+            if (locationSelect) {
+                // Auto-fill access code based on location
+                const foundCode = Object.keys(CONFIG.VALID_CODES).find(code => 
+                    CONFIG.VALID_CODES[code].location === locationSelect
+                );
+                if (foundCode) {
+                    document.getElementById('accessCode').value = foundCode;
+                }
+            }
+        }
+        
+        // ====== FUNGSI LOGOUT ======
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('petugas_session');
+            localStorage.removeItem('pending_updates');
+            document.getElementById('accessScreen').classList.remove('hidden');
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('accessCode').value = '';
+            document.getElementById('locationSelect').value = '';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+        
+        // ====== LOAD DATA ======
+        async function loadPetugasData() {
+            if (!currentUser) return;
+            
+            const petugasInfo = document.getElementById('petugasInfo');
+            petugasInfo.innerHTML = `
+                <div class="petugas-name">${currentUser.name}</div>
+                <div class="petugas-location">📍 ${currentUser.location}</div>
+                <div style="font-size: 14px; margin-top: 8px; opacity: 0.8;">
+                    Login: ${new Date().toLocaleTimeString('id-ID')}
+                </div>
+            `;
+        }
+        
+        async function loadLocationData() {
+            if (!currentUser) return;
+            
+            try {
+                // Load data from GitHub
+                const response = await fetch(
+                    `https://raw.githubusercontent.com/${CONFIG.GITHUB_REPO}/main/${CONFIG.DATA_FILE}?t=${Date.now()}`
+                );
+                
+                const data = await response.json();
+                const location = data.locations?.find(loc => loc.id === currentUser.id);
+                
+                if (location) {
+                    currentLocationData = location;
+                    renderLocationForm(location);
+                    loadUpdateHistory();
+                }
+                
+            } catch (error) {
+                console.error('Error loading location data:', error);
+                // Fallback to static data
+                renderStaticForm();
+            }
+        }
+        
+        function renderLocationForm(location) {
+            const locationDataDiv = document.getElementById('locationData');
+            
+            // Get capacities (support both formats)
+            const busCapacity = location.bus?.total || location.bus || 0;
+            const mobilCapacity = location.mobil?.total || location.mobil || 0;
+            const motorCapacity = location.motor?.total || location.motor || 0;
+            
+            const busAvailable = location.bus?.available || location.bus || 0;
+            const mobilAvailable = location.mobil?.available || location.mobil || 0;
+            const motorAvailable = location.motor?.available || location.motor || 0;
+            
+            locationDataDiv.innerHTML = `
+                <div class="input-group">
+                    <h3 style="margin-bottom: 5px;">${location.nama}</h3>
+                    <p style="color: #6b7280; margin-bottom: 15px;">${location.alamat}</p>
+                    
+                    <p style="font-weight: 600; margin-bottom: 10px;">Kapasitas Tersedia Saat Ini:</p>
+                </div>
+                
+                <div class="kapasitas-grid">
+                    ${busCapacity > 0 ? `
+                    <div class="kap-input" id="busInput">
+                        <span class="kap-icon">🚌</span>
+                        <span class="kap-label">BUS</span>
+                        <input 
+                            type="number" 
+                            id="inputBus" 
+                            value="${busAvailable}"
+                            min="0" 
+                            max="${busCapacity}"
+                            placeholder="0"
+                            onfocus="this.parentElement.classList.add('active')"
+                            onblur="this.parentElement.classList.remove('active')"
+                        >
+                        <div style="font-size: 12px; color: #6b7280; margin-top: 5px;">
+                            Max: ${busCapacity}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    ${mobilCapacity > 0 ? `
+                    <div class="kap-input" id="mobilInput">
+                        <span class="kap-icon">🚗</span>
+                        <span class="kap-label">MOBIL</span>
+                        <input 
+                            type="number" 
+                            id="inputMobil" 
+                            value="${mobilAvailable}"
+                            min="0" 
+                            max="${mobilCapacity}"
+                            placeholder="0"
+                            onfocus="this.parentElement.classList.add('active')"
+                            onblur="this.parentElement.classList.remove('active')"
+                        >
+                        <div style="font-size: 12px; color: #6b7280; margin-top: 5px;">
+                            Max: ${mobilCapacity}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    ${motorCapacity > 0 ? `
+                    <div class="kap-input" id="motorInput">
+                        <span class="kap-icon">🏍️</span>
+                        <span class="kap-label">MOTOR</span>
+                        <input 
+                            type="number" 
+                            id="inputMotor" 
+                            value="${motorAvailable}"
+                            min="0" 
+                            max="${motorCapacity}"
+                            placeholder="0"
+                            onfocus="this.parentElement.classList.add('active')"
+                            onblur="this.parentElement.classList.remove('active')"
+                        >
+                        <div style="font-size: 12px; color: #6b7280; margin-top: 5px;">
+                            Max: ${motorCapacity}
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+                
+                <div class="input-group">
+                    <label for="inputNotes">Catatan (opsional):</label>
+                    <input 
+                        type="text" 
+                        id="inputNotes" 
+                        placeholder="Contoh: Ada bus pariwisata parkir"
+                    >
+                </div>
+                
+                <div class="input-group">
+                    <button class="btn btn-primary" onclick="submitUpdate()">
+                        💾 SIMPAN PERUBAHAN
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetForm()">
+                        🔄 RESET
+                    </button>
+                </div>
+            `;
+        }
+        
+        function renderStaticForm() {
+            const locationDataDiv = document.getElementById('locationData');
+            locationDataDiv.innerHTML = `
+                <div class="input-group">
+                    <h3 style="margin-bottom: 5px;">${currentUser.location}</h3>
+                    <p style="color: #6b7280; margin-bottom: 15px;">Lokasi parkir petugas</p>
+                    
+                    <p style="font-weight: 600; margin-bottom: 10px;">Input Kapasitas Tersedia:</p>
+                </div>
+                
+                <div class="kapasitas-grid">
+                    <div class="kap-input" id="busInput">
+                        <span class="kap-icon">🚌</span>
+                        <span class="kap-label">BUS</span>
+                        <input 
+                            type="number" 
+                            id="inputBus" 
+                            value="0"
+                            min="0" 
+                            placeholder="0"
+                            onfocus="this.parentElement.classList.add('active')"
+                            onblur="this.parentElement.classList.remove('active')"
+                        >
+                    </div>
+                    
+                    <div class="kap-input" id="mobilInput">
+                        <span class="kap-icon">🚗</span>
+                        <span class="kap-label">MOBIL</span>
+                        <input 
+                            type="number" 
+                            id="inputMobil" 
+                            value="0"
+                            min="0" 
+                            placeholder="0"
+                            onfocus="this.parentElement.classList.add('active')"
+                            onblur="this.parentElement.classList.remove('active')"
+                        >
+                    </div>
+                    
+                    <div class="kap-input" id="motorInput">
+                        <span class="kap-icon">🏍️</span>
+                        <span class="kap-label">MOTOR</span>
+                        <input 
+                            type="number" 
+                            id="inputMotor" 
+                            value="0"
+                            min="0" 
+                            placeholder="0"
+                            onfocus="this.parentElement.classList.add('active')"
+                            onblur="this.parentElement.classList.remove('active')"
+                        >
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="inputNotes">Catatan (opsional):</label>
+                    <input 
+                        type="text" 
+                        id="inputNotes" 
+                        placeholder="Contoh: Ada bus pariwisata parkir"
+                    >
+                </div>
+                
+                <div class="input-group">
+                    <button class="btn btn-primary" onclick="submitUpdate()">
+                        💾 SIMPAN PERUBAHAN
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetForm()">
+                        🔄 RESET
+                    </button>
+                </div>
+            `;
+        }
+        
+        function resetForm() {
+            if (currentLocationData) {
+                renderLocationForm(currentLocationData);
+            } else {
+                renderStaticForm();
+            }
+        }
+        
+        // ====== SUBMIT UPDATE ======
+        async function submitUpdate() {
+            const loadingDiv = document.getElementById('loading');
+            const statusDiv = document.getElementById('statusMessage');
+            
+            // Get values
+            const busValue = document.getElementById('inputBus')?.value || 0;
+            const mobilValue = document.getElementById('inputMobil')?.value || 0;
+            const motorValue = document.getElementById('inputMotor')?.value || 0;
+            const notesValue = document.getElementById('inputNotes')?.value || '';
+            
+            // Validate
+            if (busValue < 0 || mobilValue < 0 || motorValue < 0) {
+                statusDiv.textContent = '❌ Kapasitas tidak boleh negatif!';
+                statusDiv.className = 'status-message status-error';
+                return;
+            }
+            
+            // Show loading
+            loadingDiv.classList.add('active');
+            statusDiv.className = 'status-message';
+            
+            try {
+                // Create update data
+                const updateData = {
+                    location_id: currentUser.id,
+                    location_name: currentUser.location,
+                    petugas_id: Object.keys(CONFIG.VALID_CODES).find(code => 
+                        CONFIG.VALID_CODES[code].name === currentUser.name
+                    ),
+                    petugas_name: currentUser.name,
+                    bus: parseInt(busValue) || 0,
+                    mobil: parseInt(mobilValue) || 0,
+                    motor: parseInt(motorValue) || 0,
+                    notes: notesValue,
+                    timestamp: new Date().toISOString(),
+                    status: 'pending'
+                };
+                
+                // Save to localStorage (simulated submission)
+                saveUpdateToLocalStorage(updateData);
+                
+                // Show success message
+                setTimeout(() => {
+                    loadingDiv.classList.remove('active');
+                    statusDiv.textContent = `✅ Data berhasil disimpan! (${new Date().toLocaleTimeString('id-ID')})`;
+                    statusDiv.className = 'status-message status-success';
+                    
+                    // Update history
+                    addToUpdateHistory(updateData);
+                    
+                    // Reload data after 2 seconds
+                    setTimeout(() => {
+                        loadLocationData();
+                    }, 2000);
+                    
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Error submitting update:', error);
+                loadingDiv.classList.remove('active');
+                statusDiv.textContent = '❌ Gagal menyimpan data. Coba lagi.';
+                statusDiv.className = 'status-message status-error';
+            }
+        }
+        
+        function saveUpdateToLocalStorage(updateData) {
+            // Get existing updates
+            const existingUpdates = JSON.parse(localStorage.getItem('pending_updates') || '[]');
+            
+            // Add new update
+            existingUpdates.push({
+                ...updateData,
+                local_id: Date.now()
+            });
+            
+            // Save back to localStorage
+            localStorage.setItem('pending_updates', JSON.stringify(existingUpdates));
+            
+            console.log('Update saved to localStorage:', updateData);
+        }
+        
+        // ====== UPDATE HISTORY ======
+        function loadUpdateHistory() {
+            const historyList = document.getElementById('historyList');
+            const updates = JSON.parse(localStorage.getItem('pending_updates') || '[]');
+            
+            // Filter updates for current location
+            const locationUpdates = updates.filter(update => 
+                update.location_id === currentUser.id
+            ).slice(-5).reverse(); // Show last 5 updates
+            
+            if (locationUpdates.length === 0) {
+                historyList.innerHTML = '<p style="color: #6b7280; text-align: center;">Belum ada update</p>';
+                return;
+            }
+            
+            let historyHTML = '';
+            locationUpdates.forEach(update => {
+                const time = new Date(update.timestamp).toLocaleTimeString('id-ID', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                historyHTML += `
+                    <div class="history-item">
+                        <div style="font-weight: 600; margin-bottom: 5px;">
+                            ${time} - ${update.petugas_name}
+                        </div>
+                        <div style="font-size: 14px; color: #6b7280;">
+                            🚌 ${update.bus} | 🚗 ${update.mobil} | 🏍️ ${update.motor}
+                            ${update.notes ? `<br>📝 ${update.notes}` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            historyList.innerHTML = historyHTML;
+        }
+        
+        function addToUpdateHistory(updateData) {
+            loadUpdateHistory();
+        }
+        
+        // ====== SESSION MANAGEMENT ======
+        function checkSession() {
+            const savedSession = localStorage.getItem('petugas_session');
+            if (savedSession) {
+                const sessionData = JSON.parse(savedSession);
+                const sessionAge = Date.now() - sessionData.loginTime;
+                
+                if (sessionAge < CONFIG.SESSION_TIMEOUT) {
+                    // Session still valid
+                    currentUser = sessionData;
+                    document.getElementById('accessScreen').classList.add('hidden');
+                    document.getElementById('adminPanel').classList.remove('hidden');
+                    loadPetugasData();
+                    loadLocationData();
+                } else {
+                    // Session expired
+                    logout();
+                }
+            }
+        }
+        
+        // ====== INITIALIZATION ======
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for saved session
+            checkSession();
+            
+            // Auto-login from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            
+            if (token && CONFIG.VALID_CODES[token]) {
+                document.getElementById('accessCode').value = token;
+                login();
+            }
+            
+            // Setup auto-save reminder
+            setInterval(() => {
+                if (currentUser) {
+                    const updates = JSON.parse(localStorage.getItem('pending_updates') || '[]');
+                    const unsyncedCount = updates.filter(u => u.status === 'pending').length;
+                    
+                    if (unsyncedCount > 0) {
+                        console.log(`Ada ${unsyncedCount} update yang belum disinkronisasi`);
+                    }
+                }
+            }, 30000); // Check every 30 seconds
+        });
+    </script>
+</body>
+</html>
