@@ -1,2 +1,9 @@
-# Tempat-Parkir-Satlantas-Polresta-YKA
-TEMPAT PARKIR SATLANTAS POLRESTA YOGYAKARTA
+# 🚗 Operasi Ketupat Progo 2026 - Sistem Parkir Real-time
+
+Sistem monitoring dan input data parkir real-time untuk Operasi Ketupat Progo 2026 di Yogyakarta.
+
+## 🌐 Live URLs
+- **Aplikasi Publik:** `https://[username].github.io/ops-ketupat-progo-2026/`
+- **Panel Petugas:** `https://[username].github.io/ops-ketupat-progo-2026/admin-petugas.html`
+
+## 📁 Struktur File
