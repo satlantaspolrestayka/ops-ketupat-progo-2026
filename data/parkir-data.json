@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-04-15T08:30:00Z",
-    "updated_by": "System",
+    "last_updated": "2026-01-27T09:20:02.844Z",
+    "updated_by": "GitHub Actions",
     "version": "1.0.0",
     "total_locations": 15,
     "operation_name": "Ops Ketupat Progo 2026",
@@ -11,11 +11,11 @@
     "total_bus_capacity": 454,
     "total_mobil_capacity": 1690,
     "total_motor_capacity": 1682,
-    "total_available_bus": 454,
-    "total_available_mobil": 1690,
+    "total_available_bus": 494,
+    "total_available_mobil": 1540,
     "total_available_motor": 1682,
     "update_count_today": 0,
-    "last_processed": "2026-04-15T08:30:00Z"
+    "last_processed": "2026-01-27T09:20:02.844Z"
   },
   "locations": [
     {

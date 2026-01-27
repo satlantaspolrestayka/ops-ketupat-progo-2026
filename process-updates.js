@@ -1,0 +1,132 @@
+const fs = require('fs');
+const path = require('path');
+
+console.log('🚗 Processing parking updates...');
+
+// File paths
+const dataPath = path.join(process.cwd(), 'data/parkir-data.json');
+const pendingPath = path.join(process.cwd(), 'data/pending-updates.json');
+
+// Load main data
+let mainData;
+try {
+  mainData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+  console.log('✅ Loaded main data');
+} catch (error) {
+  console.error('❌ Failed to load main data:', error);
+  process.exit(1);
+}
+
+// Load pending updates
+let pendingUpdates = [];
+if (fs.existsSync(pendingPath)) {
+  try {
+    pendingUpdates = JSON.parse(fs.readFileSync(pendingPath, 'utf8'));
+    console.log(`📋 Found ${pendingUpdates.length} pending updates`);
+  } catch (error) {
+    console.error('❌ Failed to load pending updates:', error);
+  }
+}
+
+// Process each pending update
+const processed = [];
+const failed = [];
+
+for (const update of pendingUpdates) {
+  try {
+    if (!update.location_id || !update.petugas_name) {
+      throw new Error('Invalid update data');
+    }
+    
+    // Find location
+    const location = mainData.locations.find(l => l.id === update.location_id);
+    if (!location) {
+      throw new Error(`Location ${update.location_id} not found`);
+    }
+    
+    // Update capacities
+    if (update.bus !== undefined) {
+      location.bus.available = parseInt(update.bus);
+      location.bus.last_update = new Date().toISOString();
+      location.bus.updated_by = update.petugas_name;
+    }
+    
+    if (update.mobil !== undefined) {
+      location.mobil.available = parseInt(update.mobil);
+      location.mobil.last_update = new Date().toISOString();
+      location.mobil.updated_by = update.petugas_name;
+    }
+    
+    if (update.motor !== undefined) {
+      location.motor.available = parseInt(update.motor);
+      location.motor.last_update = new Date().toISOString();
+      location.motor.updated_by = update.petugas_name;
+    }
+    
+    if (update.notes) {
+      location.notes = update.notes;
+    }
+    
+    // Mark as processed
+    update.processed_at = new Date().toISOString();
+    update.status = 'processed';
+    processed.push(update);
+    
+    console.log(`✅ Updated ${location.nama}`);
+    
+  } catch (error) {
+    console.error(`❌ Failed to process update:`, error.message);
+    update.error = error.message;
+    update.status = 'failed';
+    failed.push(update);
+  }
+}
+
+// Update statistics
+const stats = mainData.locations.reduce((acc, loc) => {
+  acc.bus += loc.bus.available || 0;
+  acc.mobil += loc.mobil.available || 0;
+  acc.motor += loc.motor.available || 0;
+  return acc;
+}, { bus: 0, mobil: 0, motor: 0 });
+
+mainData.statistics.total_available_bus = stats.bus;
+mainData.statistics.total_available_mobil = stats.mobil;
+mainData.statistics.total_available_motor = stats.motor;
+mainData.statistics.update_count_today = (mainData.statistics.update_count_today || 0) + processed.length;
+mainData.statistics.last_processed = new Date().toISOString();
+
+mainData.metadata.last_updated = new Date().toISOString();
+mainData.metadata.updated_by = 'GitHub Actions';
+
+// Save updated data
+fs.writeFileSync(dataPath, JSON.stringify(mainData, null, 2));
+console.log('💾 Saved updated data');
+
+// Save failed updates back (retry later)
+fs.writeFileSync(pendingPath, JSON.stringify(failed, null, 2));
+
+// Create archive
+const archiveDir = path.join(process.cwd(), 'data/updates/archive');
+if (!fs.existsSync(archiveDir)) {
+  fs.mkdirSync(archiveDir, { recursive: true });
+}
+
+const today = new Date().toISOString().split('T')[0];
+const archiveFile = path.join(archiveDir, `updates-${today}.json`);
+
+let archiveData = [];
+if (fs.existsSync(archiveFile)) {
+  archiveData = JSON.parse(fs.readFileSync(archiveFile, 'utf8'));
+}
+
+archiveData.push(...processed);
+fs.writeFileSync(archiveFile, JSON.stringify(archiveData, null, 2));
+
+console.log('\n📊 SUMMARY:');
+console.log(`✅ Processed: ${processed.length}`);
+console.log(`❌ Failed: ${failed.length}`);
+console.log(`🚌 Bus available: ${stats.bus}`);
+console.log(`🚗 Mobil available: ${stats.mobil}`);
+console.log(`🏍️ Motor available: ${stats.motor}`);
+
