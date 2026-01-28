@@ -1,0 +1,41 @@
+{
+  "name": "parking-data-validator",
+  "version": "2.0.0",
+  "description": "Advanced parking data validation and statistics system",
+  "main": "scripts/validate-parking.js",
+  "scripts": {
+    "validate": "node scripts/validate-parking.js",
+    "validate:dry-run": "node scripts/validate-parking.js --dry-run",
+    "validate:strict": "node scripts/validate-parking.js --mode=strict",
+    "validate:fix": "node scripts/validate-parking.js --mode=fix --force",
+    "validate:report": "node scripts/validate-parking.js --mode=report-only",
+    "test": "node scripts/test-validator.js",
+    "lint": "eslint scripts/*.js",
+    "format": "prettier --write scripts/*.js"
+  },
+  "bin": {
+    "parking-validator": "./scripts/validate-parking.js"
+  },
+  "keywords": [
+    "parking",
+    "validation",
+    "statistics",
+    "data-quality"
+  ],
+  "author": "Your Team",
+  "license": "MIT",
+  "dependencies": {
+    "minimist": "^1.2.8",
+    "chalk": "^4.1.2",
+    "dayjs": "^1.11.9",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1",
+    "jest": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
