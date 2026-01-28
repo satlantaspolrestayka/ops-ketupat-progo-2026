@@ -2,53 +2,71 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Parkir Ops Ketupat Progo 2026 - Yogyakarta</title>
+    <title>Sistem Informasi Parkir - Operasi Ketupat Progo 2026</title>
+    
+    <!-- SEO & Meta Tags -->
+    <meta name="description" content="Sistem Informasi Parkir Real-time untuk Operasi Ketupat Progo 2026 di Yogyakarta">
+    <meta name="keywords" content="parkir, yogyakarta, operasi ketupat progo, satlantas, polresta">
+    <meta name="author" content="Satlantas Polresta Yogyakarta">
     
     <!-- iOS Meta Tags -->
     <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-title" content="Parkir Jogja">
+    <meta name="apple-mobile-web-app-title" content="Info Parkir">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#059669">
+    <meta name="theme-color" content="#1e40af">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🅿️</text></svg>">
     
     <style>
         /* ====== CSS VARIABLES & RESET ====== */
         :root {
-            /* Color System */
+            /* Color System - Professional Blue Theme */
             --primary-500: #3b82f6;
             --primary-600: #2563eb;
-            --primary-700: #1d4ed8;
+            --primary-700: #1e40af;
+            --primary-800: #1e3a8a;
+            --primary-900: #1e3a8a;
+            
+            --secondary-500: #64748b;
+            --secondary-600: #475569;
+            --secondary-700: #334155;
+            
             --success-500: #10b981;
             --success-600: #059669;
             --success-700: #047857;
-            --danger-500: #ef4444;
-            --danger-600: #dc2626;
+            
             --warning-500: #f59e0b;
             --warning-600: #d97706;
-            --purple-500: #8b5cf6;
+            
+            --danger-500: #ef4444;
+            --danger-600: #dc2626;
             
             /* Neutral Colors */
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-400: #9ca3af;
-            --gray-500: #6b7280;
-            --gray-700: #374151;
-            --gray-800: #1f2937;
-            --gray-900: #111827;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
             
             /* Shadow System */
-            --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
-            --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.07);
+            --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-card: 0 10px 15px rgba(0, 0, 0, 0.1);
             
             /* Animation */
-            --transition-fast: 0.15s ease-out;
-            --transition-base: 0.25s ease-out;
+            --transition-fast: 0.15s ease;
+            --transition-base: 0.25s ease;
         }
         
         * { 
@@ -58,26 +76,31 @@
             -webkit-tap-highlight-color: transparent;
         }
         
+        html {
+            scroll-behavior: smooth;
+        }
+        
         body { 
             min-height: 100vh;
-            background: linear-gradient(135deg, #047857 0%, #059669 50%, #10b981 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            padding: 20px;
+            padding: 16px;
             color: var(--gray-800);
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
         
         /* ====== HEADER UTAMA ====== */
         .main-header { 
-            background: linear-gradient(135deg, #047857, #059669); 
+            background: linear-gradient(135deg, var(--primary-800), var(--primary-700)); 
             color: white; 
             text-align: center;
-            border-bottom: 3px solid rgba(255, 215, 0, 0.5);
-            padding: 35px 20px;
+            padding: 32px 20px;
             position: relative;
             overflow: hidden;
+            border-bottom: 4px solid rgba(255, 255, 255, 0.1);
         }
         
         .main-header::before {
@@ -87,7 +110,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h20v20H0z" fill="none"/><path d="M3 3h2v2H3zM8 3h2v2H8zM13 3h2v2h-2zM3 8h2v2H3zM8 8h2v2H8zM13 8h2v2h-2zM3 13h2v2H3zM8 13h2v2H8zM13 13h2v2h-2z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="none"/><path d="M30 5L55 25V55H5V25L30 5Z" stroke="rgba(255,255,255,0.03)" stroke-width="1" fill="none"/></svg>');
         }
         
         .header-content {
@@ -102,15 +125,15 @@
             font-weight: 800;
             line-height: 1.2;
             letter-spacing: -0.5px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .main-header p { 
-            color: rgba(255, 255, 255, 0.95); 
-            font-size: clamp(16px, 3vw, 18px);
+            color: rgba(255, 255, 255, 0.9); 
+            font-size: clamp(14px, 3vw, 16px);
             font-weight: 400;
-            margin-bottom: 20px;
+            margin-bottom: 0;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
@@ -118,23 +141,15 @@
         
         .operation-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #DC2626, #B91C1C);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
-            padding: 10px 28px;
-            border-radius: 50px;
-            font-size: 15px;
-            font-weight: 700;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             letter-spacing: 0.5px;
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .operation-badge:active {
-            transform: scale(0.98);
+            margin-top: 16px;
         }
         
         /* ====== LOADING OVERLAY ====== */
@@ -144,13 +159,13 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(255, 255, 255, 0.95);
             display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
             transition: opacity 0.3s;
         }
         
@@ -165,29 +180,28 @@
         }
         
         .loading-spinner {
-            border: 4px solid rgba(5, 150, 105, 0.1);
-            border-top: 4px solid var(--success-600);
+            border: 3px solid rgba(30, 64, 175, 0.1);
+            border-top: 3px solid var(--primary-700);
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
+            width: 48px;
+            height: 48px;
             animation: spin 1s linear infinite;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.15);
+            margin-bottom: 16px;
         }
         
         .loading-text {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--gray-800);
-            margin-bottom: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 8px;
             text-align: center;
         }
         
         .loading-subtext {
-            font-size: 15px;
+            font-size: 13px;
             color: var(--gray-500);
             text-align: center;
-            max-width: 300px;
+            max-width: 280px;
             line-height: 1.5;
         }
         
@@ -201,19 +215,19 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: var(--success-600);
+            background: var(--primary-600);
             color: white;
             padding: 12px 20px;
-            border-radius: 12px;
+            border-radius: 6px;
             font-size: 14px;
             font-weight: 600;
             z-index: 9998;
-            box-shadow: 0 4px 20px rgba(5, 150, 105, 0.3);
+            box-shadow: var(--shadow-medium);
             display: none;
             align-items: center;
             gap: 10px;
             animation: slideIn 0.3s ease-out;
-            border-left: 4px solid white;
+            border-left: 3px solid white;
         }
         
         @keyframes slideIn {
@@ -223,7 +237,6 @@
         
         .refresh-notification.error {
             background: var(--danger-500);
-            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
         }
         
         /* ====== CONTAINER ====== */
@@ -231,169 +244,91 @@
             max-width: 1200px; 
             margin: 0 auto; 
             background: white; 
-            border-radius: 24px; 
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+            border-radius: 12px; 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
             overflow: hidden;
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        /* ====== MOBILE COMPACT HEADER ====== */
-        .compact-header {
-            background: white;
-            padding: 20px 15px;
+        /* ====== ACTIONS SECTION ====== */
+        .actions-section {
+            padding: 32px 20px 24px;
+            background: var(--gray-50);
             border-bottom: 1px solid var(--gray-200);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
         }
         
-        .total-locations {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 25px 20px;
-            background: linear-gradient(135deg, var(--gray-50), white);
-            border-radius: 20px;
-            border: 2px solid var(--gray-200);
-            box-shadow: var(--shadow-soft);
-            transition: all var(--transition-base);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .total-locations::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--success-500), var(--primary-500));
-        }
-        
-        .total-locations:active {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .total-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            display: block;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-        }
-        
-        .total-number {
-            font-size: clamp(42px, 11vw, 56px);
-            font-weight: 900;
-            color: var(--success-600);
-            line-height: 1;
-            margin-bottom: 8px;
-            text-shadow: 0 2px 4px rgba(5, 150, 105, 0.1);
-        }
-        
-        .total-label {
-            font-size: clamp(14px, 3.5vw, 16px);
-            color: var(--gray-500);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .capacity-tabs {
+        .action-wrapper {
+            max-width: 500px;
+            margin: 0 auto;
             display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .capacity-tab {
-            flex: 1;
-            background: white;
-            border-radius: 20px;
-            padding: 20px 12px;
-            text-align: center;
-            box-shadow: var(--shadow-soft);
-            border: 2px solid transparent;
-            transition: all var(--transition-base);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .capacity-tab::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: currentColor;
-            opacity: 0.2;
-        }
-        
-        .capacity-tab:active {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-        }
-        
-        .tab-icon {
-            font-size: clamp(28px, 7vw, 36px);
-            margin-bottom: 12px;
-            display: block;
-        }
-        
-        .tab-number {
-            font-size: clamp(28px, 7vw, 40px);
-            font-weight: 800;
-            margin-bottom: 5px;
-            line-height: 1;
-        }
-        
-        .tab-label {
-            font-size: clamp(12px, 3vw, 14px);
-            color: var(--gray-500);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-        
-        .tab-bus .tab-icon { color: var(--danger-500); }
-        .tab-bus .tab-number { color: var(--danger-600); }
-        .tab-bus { border-color: rgba(239, 68, 68, 0.2); }
-        .tab-bus::before { background: var(--danger-500); }
-        
-        .tab-mobil .tab-icon { color: var(--primary-500); }
-        .tab-mobil .tab-number { color: var(--primary-600); }
-        .tab-mobil { border-color: rgba(59, 130, 246, 0.2); }
-        .tab-mobil::before { background: var(--primary-500); }
-        
-        .tab-motor .tab-icon { color: var(--success-500); }
-        .tab-motor .tab-number { color: var(--success-600); }
-        .tab-motor { border-color: rgba(16, 185, 129, 0.2); }
-        .tab-motor::before { background: var(--success-500); }
-        
-        /* ====== REFRESH CONTROL ====== */
-        .refresh-control {
-            display: flex;
+            flex-direction: column;
+            gap: 16px;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 15px 15px;
+        }
+        
+        .btn-primary { 
+            width: 100%;
+            max-width: 400px;
+            padding: 18px 24px; 
+            border: none; 
+            border-radius: 10px; 
+            font-size: 16px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 12px; 
+            transition: all var(--transition-base);
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+            color: white;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
+        }
+        
+        .btn-primary:active { 
+            transform: translateY(0); 
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        /* ====== UPDATE INFO SECTION ====== */
+        .update-info-section {
+            padding: 0 20px 32px;
+            background: var(--gray-50);
             border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .update-wrapper {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
         }
         
         .last-updated {
-            font-size: 13px;
-            color: var(--gray-500);
+            font-size: 14px;
+            color: var(--gray-600);
             font-weight: 500;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-soft);
         }
         
         .last-updated::before {
@@ -402,117 +337,83 @@
             opacity: 0.7;
         }
         
-        .refresh-btn {
-            background: var(--gray-100);
-            border: none;
-            border-radius: 12px;
-            padding: 10px 16px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--gray-700);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all var(--transition-base);
-        }
-        
-        .refresh-btn:active {
-            background: var(--gray-200);
-            transform: scale(0.95);
-        }
-        
-        .refresh-btn.loading {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-        
-        /* ====== ACTIONS SECTION ====== */
-        .actions-section {
-            padding: 25px 15px;
-            background: linear-gradient(135deg, var(--gray-50), white);
+        /* ====== STATISTICS SECTION ====== */
+        .statistics-section {
+            padding: 32px 20px;
+            background: white;
             border-bottom: 1px solid var(--gray-200);
         }
         
-        .action-wrapper {
-            max-width: 500px;
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            max-width: 800px;
             margin: 0 auto;
         }
         
-        .btn-primary { 
-            width: 100%;
-            padding: clamp(18px, 4vw, 22px); 
-            border: none; 
-            border-radius: 18px; 
-            font-size: clamp(16px, 4vw, 18px); 
-            font-weight: 700; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 14px; 
+        .stat-card {
+            background: var(--gray-50);
+            border-radius: 10px;
+            padding: 24px 20px;
+            text-align: center;
+            border: 1px solid var(--gray-200);
             transition: all var(--transition-base);
-            background: linear-gradient(135deg, var(--success-600), var(--success-700));
-            color: white;
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 0.3px;
         }
         
-        .btn-primary::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--primary-300);
         }
         
-        .btn-primary:active { 
-            transform: scale(0.98); 
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            display: block;
+            opacity: 0.9;
         }
         
-        .btn-primary:active::after {
-            left: 100%;
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary-700);
+            line-height: 1;
+            margin-bottom: 6px;
         }
         
-        .btn-primary:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray-600);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         /* ====== MAIN CONTENT ====== */
         .main-content {
-            padding: 0 15px 30px;
-            background: var(--gray-50);
+            padding: 0 20px 40px;
+            background: white;
         }
         
         .section-title {
-            font-size: clamp(20px, 5vw, 24px);
-            font-weight: 800;
+            font-size: clamp(20px, 4vw, 24px);
+            font-weight: 700;
             color: var(--gray-900);
-            margin: 0 0 30px 0;
-            padding: 30px 0 20px;
-            border-bottom: 3px solid var(--success-500);
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            line-height: 1.3;
+            margin: 0 0 24px 0;
+            padding: 32px 0 20px;
+            border-bottom: 2px solid var(--primary-200);
+            position: relative;
         }
         
-        .section-title::before {
+        .section-title::after {
             content: '';
-            display: block;
-            width: 5px;
-            height: 28px;
-            background: linear-gradient(135deg, var(--success-500), var(--primary-500));
-            border-radius: 3px;
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: var(--primary-600);
         }
         
         /* ====== LOKASI LIST ====== */
@@ -524,68 +425,35 @@
         
         .lokasi-item { 
             background: white; 
-            border-radius: 20px; 
-            padding: 25px 20px; 
+            border-radius: 10px; 
+            padding: 24px; 
             transition: all var(--transition-base);
-            border: 2px solid var(--gray-200);
-            box-shadow: var(--shadow-card);
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-soft);
             position: relative;
             overflow: hidden;
-            animation: fadeInUp 0.4s ease-out backwards;
         }
         
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .lokasi-item:hover {
+            box-shadow: var(--shadow-medium);
+            border-color: var(--gray-300);
         }
-        
-        .lokasi-item:nth-child(1) { animation-delay: 0.1s; }
-        .lokasi-item:nth-child(2) { animation-delay: 0.2s; }
-        .lokasi-item:nth-child(3) { animation-delay: 0.3s; }
-        .lokasi-item:nth-child(4) { animation-delay: 0.4s; }
-        .lokasi-item:nth-child(5) { animation-delay: 0.5s; }
         
         .lokasi-item::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--success-500), var(--primary-500));
-            opacity: 0.9;
-        }
-        
-        .lokasi-item:active { 
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-            border-color: var(--success-300);
-        }
-        
-        .lokasi-item.closest {
-            border-color: var(--success-500);
-            background: linear-gradient(135deg, #ffffff, #f0fdf4);
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15); }
-            50% { box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25); }
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-500), var(--primary-700));
         }
         
         /* STYLE KHUSUS KRIDOSONO */
         .lokasi-item.kridosono {
-            background: linear-gradient(135deg, #fffbeb, #fef3c7);
-            border: 2px solid #f59e0b;
+            background: linear-gradient(135deg, #fefce8, #fef9c3);
+            border: 1px solid #fbbf24;
             position: relative;
-            overflow: hidden;
         }
         
         .kridosono-header {
@@ -598,25 +466,23 @@
         .kridosono-badge {
             background: linear-gradient(135deg, #f59e0b, #d97706);
             color: white;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
             display: inline-block;
             margin-left: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
         }
         
         /* TOMBOL INFO OPERASIONAL */
         .info-operasional-toggle {
             width: 100%;
-            padding: 16px 20px;
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            border: 2px solid #fbbf24;
-            border-radius: 16px;
-            font-size: 15px;
-            font-weight: 700;
+            padding: 14px 20px;
+            background: #fef9c3;
+            border: 1px solid #fbbf24;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
             color: #92400e;
             display: flex;
             align-items: center;
@@ -624,19 +490,15 @@
             cursor: pointer;
             transition: all var(--transition-base);
             margin: 20px 0;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
-            position: relative;
-            overflow: hidden;
         }
         
-        .info-operasional-toggle:active {
-            transform: translateY(-1px);
-            background: linear-gradient(135deg, #fde68a, #fcd34d);
-            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.25);
+        .info-operasional-toggle:hover {
+            background: #fef08a;
+            border-color: #f59e0b;
         }
         
         .toggle-icon {
-            font-size: 20px;
+            font-size: 16px;
             transition: transform 0.3s ease-out;
         }
         
@@ -644,27 +506,26 @@
             max-height: 0;
             overflow: hidden;
             background: white;
-            border-radius: 0 0 16px 16px;
-            border: 2px solid #fbbf24;
+            border-radius: 0 0 6px 6px;
+            border: 1px solid #fbbf24;
             border-top: none;
-            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            margin: -2px 0 20px 0;
-            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.15);
+            transition: max-height 0.4s ease-out;
+            margin: -1px 0 20px 0;
         }
         
         .info-operasional-content.expanded {
-            max-height: 500px;
+            max-height: 400px;
         }
         
         .operasional-simple {
-            padding: 25px;
+            padding: 20px;
         }
         
         /* STYLE PERIODE SEDERHANA */
         .periode-simple {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             padding-bottom: 20px;
-            border-bottom: 2px dashed #fbbf24;
+            border-bottom: 1px solid #fbbf24;
         }
         
         .periode-simple:last-child {
@@ -674,22 +535,17 @@
         }
         
         .periode-title {
-            font-size: 17px;
-            font-weight: 800;
+            font-size: 16px;
+            font-weight: 700;
             color: #92400e;
             margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-        
-        .periode-title::before {
-            content: '📅';
-            font-size: 18px;
+            gap: 8px;
         }
         
         .periode-waktu {
-            font-size: 15px;
+            font-size: 14px;
             color: #b45309;
             margin-bottom: 15px;
             display: flex;
@@ -697,14 +553,9 @@
             gap: 8px;
         }
         
-        .periode-waktu::before {
-            content: '⏰';
-            font-size: 16px;
-        }
-        
         .periode-kapasitas {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
         
@@ -712,23 +563,22 @@
         .simple-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            border-radius: 20px;
-            font-size: 15px;
-            font-weight: 700;
-            border: 2px solid transparent;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid transparent;
         }
         
         .simple-badge.mobil {
-            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            background: #eff6ff;
             color: var(--primary-700);
             border-color: #93c5fd;
         }
         
         .simple-badge.motor {
-            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            background: #f0fdf4;
             color: var(--success-600);
             border-color: #86efac;
         }
@@ -737,69 +587,67 @@
             display: flex; 
             justify-content: space-between; 
             align-items: flex-start; 
-            margin-bottom: 18px; 
+            margin-bottom: 16px; 
         }
         
         .lokasi-nama { 
-            font-size: clamp(18px, 4.5vw, 22px); 
-            font-weight: 800; 
+            font-size: clamp(18px, 4vw, 20px); 
+            font-weight: 700; 
             color: var(--gray-900); 
             line-height: 1.3;
             flex: 1;
         }
         
         .lokasi-id { 
-            background: linear-gradient(135deg, var(--success-500), var(--success-600)); 
+            background: var(--primary-600); 
             color: white; 
-            width: 40px; 
-            height: 40px; 
-            border-radius: 50%; 
+            width: 36px; 
+            height: 36px; 
+            border-radius: 4px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            font-weight: 800;
-            font-size: 18px;
+            font-weight: 700;
+            font-size: 16px;
             flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
             margin-left: 12px;
         }
         
         .lokasi-alamat { 
             color: var(--gray-600); 
             margin-bottom: 20px; 
-            font-size: clamp(15px, 3.5vw, 16px);
+            font-size: 15px;
             line-height: 1.5;
             display: flex;
             align-items: flex-start;
-            gap: 10px;
+            gap: 8px;
         }
         
         .lokasi-alamat::before {
             content: '📍';
-            font-size: 16px;
+            font-size: 14px;
             flex-shrink: 0;
-            margin-top: 3px;
-            opacity: 0.8;
+            margin-top: 2px;
+            opacity: 0.7;
         }
         
         .lokasi-jarak {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 25px;
-            font-size: clamp(15px, 3.5vw, 16px);
-            color: var(--success-600);
-            font-weight: 700;
-            padding: 14px 18px;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            color: var(--primary-600);
+            font-weight: 600;
+            padding: 12px 16px;
             background: var(--gray-50);
-            border-radius: 14px;
-            border: 2px solid var(--gray-200);
-            transition: all var(--transition-base);
+            border-radius: 6px;
+            border: 1px solid var(--gray-200);
         }
         
         .lokasi-jarak::before {
-            content: '📏';
-            font-size: 18px;
+            content: '📍';
+            font-size: 14px;
             flex-shrink: 0;
         }
         
@@ -808,7 +656,6 @@
             background: linear-gradient(90deg, var(--gray-50), var(--gray-100), var(--gray-50));
             background-size: 200% 100%;
             animation: loading 1.5s infinite;
-            border-color: var(--gray-200);
         }
         
         @keyframes loading {
@@ -819,227 +666,276 @@
         .kapasitas-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 12px;
+            margin-bottom: 24px;
         }
         
-        .kap-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 18px;
-            border-radius: 20px;
-            font-size: clamp(14px, 3vw, 15px);
-            font-weight: 700;
-            white-space: nowrap;
-            border: 2px solid transparent;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        .kapasitas-item {
+            flex: 1;
+            min-width: 150px;
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--gray-200);
             transition: all var(--transition-base);
         }
         
-        .kap-badge:active {
-            transform: scale(0.95);
+        .kapasitas-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
         }
         
-        .badge-bus { 
-            background: linear-gradient(135deg, #fef2f2, #fee2e2);
-            color: var(--danger-600);
-            border-color: #fca5a5;
+        .kapasitas-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
         }
         
-        .badge-mobil { 
-            background: linear-gradient(135deg, #eff6ff, #dbeafe);
-            color: var(--primary-700);
-            border-color: #93c5fd;
+        .kapasitas-icon {
+            font-size: 20px;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .badge-motor { 
-            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-            color: var(--success-600);
-            border-color: #86efac;
+        .kapasitas-icon.bus { background: #fef2f2; color: var(--danger-600); }
+        .kapasitas-icon.mobil { background: #eff6ff; color: var(--primary-600); }
+        .kapasitas-icon.motor { background: #f0fdf4; color: var(--success-600); }
+        
+        .kapasitas-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-700);
         }
+        
+        .kapasitas-progress {
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease-out;
+        }
+        
+        .progress-fill.bus { background: linear-gradient(90deg, #fca5a5, #ef4444); }
+        .progress-fill.mobil { background: linear-gradient(90deg, #93c5fd, #3b82f6); }
+        .progress-fill.motor { background: linear-gradient(90deg, #86efac, #10b981); }
+        
+        .kapasitas-numbers {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .kapasitas-available {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--gray-900);
+        }
+        
+        .kapasitas-percentage {
+            font-size: 14px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+        
+        .kapasitas-percentage.high { background: #dcfce7; color: #166534; }
+        .kapasitas-percentage.medium { background: #fef9c3; color: #92400e; }
+        .kapasitas-percentage.low { background: #fee2e2; color: #991b1b; }
         
         .lokasi-actions { 
             display: flex; 
-            gap: 14px; 
+            gap: 12px; 
         }
         
         .btn-action { 
             flex: 1; 
-            padding: 16px 20px; 
-            border: none; 
-            border-radius: 16px; 
-            font-size: clamp(15px, 3.5vw, 16px); 
+            padding: 14px 16px; 
+            border: 1px solid transparent; 
+            border-radius: 8px; 
+            font-size: 14px; 
             cursor: pointer; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            gap: 12px; 
-            font-weight: 700;
-            min-height: 52px;
+            gap: 8px; 
+            font-weight: 600;
+            min-height: 48px;
             transition: all var(--transition-base);
-            border: 2px solid transparent;
             background: white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            position: relative;
-            overflow: hidden;
+            box-shadow: var(--shadow-soft);
         }
         
-        .btn-action::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
         }
         
         .btn-action:active {
-            transform: scale(0.95);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-        }
-        
-        .btn-action:active::after {
-            left: 100%;
+            transform: translateY(0);
         }
         
         .btn-map { 
-            background: linear-gradient(135deg, white, #eff6ff);
+            background: white;
             color: var(--primary-600); 
             border-color: #93c5fd;
         }
         
         .btn-route { 
-            background: linear-gradient(135deg, white, #ecfdf5);
+            background: white;
             color: var(--success-600);
             border-color: #a7f3d0;
         }
         
         /* STATUS INDICATOR */
         .status-indicator {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             position: absolute;
-            top: 25px;
-            right: 25px;
+            top: 24px;
+            right: 24px;
             border: 2px solid white;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            animation: pulse 2s infinite;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         
         .status-low { background-color: #10b981; } /* Banyak tersedia */
         .status-medium { background-color: #f59e0b; } /* Sedang */
         .status-high { background-color: #ef4444; } /* Hampir penuh */
-        .status-full { background-color: #dc2626; animation: none; } /* Penuh */
+        .status-full { background-color: #dc2626; } /* Penuh */
         
-        /* UPDATE BADGE */
-        .update-badge {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background: var(--success-500);
-            color: white;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 10px;
-            display: none;
-        }
-        
-        .lokasi-item.updated .update-badge {
-            display: block;
-            animation: fadeIn 0.3s ease-out;
-        }
-        
-        /* ====== RESPONSIVE UTAMA ====== */
-        @media (min-width: 768px) {
-            .compact-header {
-                display: none;
-            }
-            
-            .actions-section,
-            .main-content {
-                padding: 0 50px 40px;
-            }
-            
-            .refresh-control {
-                padding: 0 50px 20px;
-            }
-            
-            .section-title {
-                padding: 40px 0 25px;
-            }
-            
-            .lokasi-list {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-                gap: 25px;
-            }
-            
-            .lokasi-item {
-                padding: 30px 25px;
-            }
-            
-            .periode-kapasitas {
-                flex-wrap: nowrap;
+        /* ====== RESPONSIVE DESIGN ====== */
+        @media (max-width: 640px) {
+            body {
+                padding: 12px;
             }
             
             .main-header {
-                padding: 50px 40px;
+                padding: 24px 16px;
             }
-        }
-        
-        @media (max-width: 375px) {
-            .capacity-tabs {
-                flex-direction: column;
+            
+            .actions-section,
+            .update-info-section,
+            .statistics-section,
+            .main-content {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+            
+            .statistics-section {
+                padding: 24px 16px;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
                 gap: 12px;
             }
             
-            .capacity-tab {
-                display: flex;
-                align-items: center;
-                text-align: left;
-                padding: 18px 20px;
-                gap: 25px;
+            .stat-card {
+                padding: 20px 16px;
             }
             
-            .tab-icon {
-                margin-bottom: 0;
-                font-size: 32px;
-                flex-shrink: 0;
+            .lokasi-list {
+                gap: 16px;
             }
             
-            .tab-number {
-                margin-bottom: 0;
-                margin-right: auto;
-                font-size: 32px;
+            .lokasi-item {
+                padding: 20px;
             }
             
-            .btn-action {
-                padding: 14px 16px;
-                min-height: 50px;
+            .kapasitas-item {
+                min-width: 100%;
             }
             
             .lokasi-actions {
                 flex-direction: column;
-                gap: 12px;
+            }
+            
+            .btn-action {
+                width: 100%;
+            }
+        }
+        
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .lokasi-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                gap: 20px;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .actions-section,
+            .update-info-section,
+            .statistics-section,
+            .main-content {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+            
+            .section-title {
+                font-size: 26px;
+            }
+            
+            .lokasi-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+                gap: 24px;
+            }
+            
+            .kapasitas-container {
+                flex-wrap: nowrap;
+            }
+        }
+        
+        @media (orientation: landscape) and (max-height: 600px) {
+            .main-header {
+                padding: 20px;
+            }
+            
+            .actions-section {
+                padding: 20px;
+            }
+            
+            .statistics-section {
+                padding: 20px;
+            }
+            
+            .stat-card {
+                padding: 16px;
             }
         }
         
         /* ====== FOOTER ====== */
         .footer { 
             text-align: center; 
-            padding: 35px 25px; 
+            padding: 32px 20px; 
             color: white; 
-            font-size: clamp(14px, 3vw, 15px); 
-            background: linear-gradient(135deg, #047857, #059669);
+            font-size: 14px; 
+            background: linear-gradient(135deg, var(--primary-800), var(--primary-700));
             line-height: 1.6;
-            border-top: 2px solid rgba(255, 215, 0, 0.4);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
-            overflow: hidden;
         }
         
         .footer::before {
@@ -1049,31 +945,29 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h20v20H0z" fill="none"/><path d="M3 3h2v2H3zM8 3h2v2H3zM13 3h2v2H3zM3 8h2v2H3zM8 8h2v2H3zM13 8h2v2H3zM3 13h2v2H3zM8 13h2v2H3zM13 13h2v2H3z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="none"/><path d="M30 5L55 25V55H5V25L30 5Z" stroke="rgba(255,255,255,0.03)" stroke-width="1" fill="none"/></svg>');
         }
         
         .footer-logo {
-            font-size: clamp(22px, 5vw, 26px);
-            font-weight: 800;
-            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
             color: white;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             position: relative;
             z-index: 1;
         }
         
         .footer p {
-            margin: 10px 0;
-            opacity: 0.95;
+            margin: 8px 0;
+            opacity: 0.9;
             position: relative;
             z-index: 1;
         }
         
         .footer-copyright {
-            margin-top: 25px;
-            font-size: clamp(13px, 2.5vw, 14px);
-            opacity: 0.8;
+            margin-top: 20px;
+            font-size: 13px;
+            opacity: 0.7;
             position: relative;
             z-index: 1;
         }
@@ -1085,14 +979,14 @@
             left: 20px;
             right: 20px;
             background: white;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             z-index: 9997;
             display: none;
             align-items: center;
-            gap: 15px;
-            animation: slideUp 0.5s ease-out;
+            gap: 12px;
+            animation: slideUp 0.3s ease-out;
         }
         
         @keyframes slideUp {
@@ -1105,29 +999,54 @@
             font-weight: 600;
             color: var(--gray-800);
             margin: 0;
+            font-size: 14px;
         }
         
         .pwa-install button {
-            background: var(--success-600);
+            background: var(--primary-600);
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
             cursor: pointer;
+            font-size: 14px;
         }
         
         .pwa-install .close-btn {
             background: var(--gray-200);
             color: var(--gray-700);
-            padding: 8px;
+            padding: 6px;
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 12px;
         }
+        
+        /* ====== UTILITY CLASSES ====== */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-2 { margin-top: 8px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mt-4 { margin-top: 16px; }
+        .mb-4 { margin-bottom: 16px; }
     </style>
 </head>
 <body>
@@ -1140,13 +1059,13 @@
 
     <!-- REFRESH NOTIFICATION -->
     <div class="refresh-notification" id="refreshNotification">
-        <span>🔄 Data diperbarui</span>
+        <span>Data diperbarui</span>
         <span id="refreshTime"></span>
     </div>
 
     <!-- PWA INSTALL PROMPT -->
     <div class="pwa-install" id="pwaInstall">
-        <p>📱 Pasang aplikasi parkir di HP Anda</p>
+        <p>Pasang aplikasi parkir di HP Anda</p>
         <button onclick="installPWA()">PASANG</button>
         <button class="close-btn" onclick="closePWAInstall()">✕</button>
     </div>
@@ -1155,57 +1074,50 @@
         <!-- HEADER UTAMA -->
         <div class="main-header">
             <div class="header-content">
-                <h1>OPERASI KETUPAT PROGO 2026</h1>
-                <p>Sistem Informasi Parkir Real-time Kota Yogyakarta</p>
+                <h1>SISTEM INFORMASI PARKIR</h1>
+                <p>Operasi Ketupat Progo 2026 - Kota Yogyakarta</p>
                 <div class="operation-badge">Satlantas Polresta Yogyakarta</div>
             </div>
-        </div>
-        
-        <!-- MOBILE COMPACT HEADER -->
-        <div class="compact-header">
-            <div class="total-locations">
-                <div class="total-icon">📍</div>
-                <div class="total-number" id="totalLocations">15</div>
-                <div class="total-label">LOKASI PARKIR</div>
-            </div>
-            
-            <div class="capacity-tabs">
-                <div class="capacity-tab tab-bus">
-                    <div class="tab-icon">🚌</div>
-                    <div class="tab-number" id="totalBus">454</div>
-                    <div class="tab-label">BUS</div>
-                </div>
-                
-                <div class="capacity-tab tab-mobil">
-                    <div class="tab-icon">🚗</div>
-                    <div class="tab-number" id="totalMobil">1,690</div>
-                    <div class="tab-label">MOBIL</div>
-                </div>
-                
-                <div class="capacity-tab tab-motor">
-                    <div class="tab-icon">🏍️</div>
-                    <div class="tab-number" id="totalMotor">1,682</div>
-                    <div class="tab-label">MOTOR</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- REFRESH CONTROL -->
-        <div class="refresh-control">
-            <div class="last-updated" id="lastUpdated">
-                Memuat data...
-            </div>
-            <button class="refresh-btn" onclick="manualRefresh()" id="refreshBtn">
-                <span>🔄</span> Refresh
-            </button>
         </div>
         
         <!-- ACTIONS SECTION -->
         <div class="actions-section">
             <div class="action-wrapper">
                 <button class="btn btn-primary" onclick="cariParkirTerdekat()" id="btnCari">
-                    <span>📍</span> CARI PARKIR TERDEKAT
+                    CARI PARKIR TERDEKAT
                 </button>
+            </div>
+        </div>
+        
+        <!-- UPDATE INFO SECTION -->
+        <div class="update-info-section">
+            <div class="update-wrapper">
+                <div class="last-updated" id="lastUpdated">
+                    Memuat data...
+                </div>
+            </div>
+        </div>
+        
+        <!-- STATISTICS SECTION -->
+        <div class="statistics-section">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon">🚗</div>
+                    <div class="stat-number" id="totalMobil">1,690</div>
+                    <div class="stat-label">Kapasitas Mobil</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">🏍️</div>
+                    <div class="stat-number" id="totalMotor">1,682</div>
+                    <div class="stat-label">Kapasitas Motor</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">🚌</div>
+                    <div class="stat-number" id="totalBus">454</div>
+                    <div class="stat-label">Kapasitas Bus</div>
+                </div>
             </div>
         </div>
         
@@ -1226,7 +1138,6 @@
             <p>Polri Untuk Masyarakat</p>
             <p class="footer-copyright">© 2026 - Operasi Ketupat Progo</p>
             <p class="footer-copyright">Scan QR Code untuk informasi parkir real-time</p>
-            <p class="footer-copyright">Update otomatis setiap 30 detik</p>
         </div>
     </div>
 
@@ -1243,24 +1154,23 @@
                 periode1: {
                     label: "20 - 22 April 2026",
                     waktu: "18.00 WIB",
-                    motor: "150 motor",
-                    mobil: "30 mobil"
+                    motor: "150 tersedia",
+                    mobil: "30 tersedia"
                 },
                 periode2: {
                     label: "23 - 26 April 2026",
                     waktu: "18.00 WIB",
-                    motor: "250 motor",
-                    mobil: "250 mobil"
+                    motor: "250 tersedia",
+                    mobil: "250 tersedia"
                 }
             },
             
             // Auto-refresh settings
             AUTO_REFRESH_INTERVAL: 30000, // 30 detik
-            MANUAL_REFRESH_DELAY: 2000,   // 2 detik cooldown
             
             // Cache settings
             CACHE_DURATION: 5 * 60 * 1000, // 5 menit
-            CACHE_KEY: 'parkir_cache_v2',
+            CACHE_KEY: 'parkir_cache_v3',
             CACHE_TIMESTAMP_KEY: 'parkir_cache_timestamp'
         };
         
@@ -1270,7 +1180,6 @@
         const distancesCache = new Map();
         let isCalculating = false;
         let isRefreshing = false;
-        let lastRefreshTime = Date.now();
         let refreshInterval = null;
         let deferredInstallPrompt = null;
         
@@ -1344,7 +1253,6 @@
             showLoading('Menghitung jarak ke lokasi parkir...');
             
             distancesCache.clear();
-            const promises = [];
             
             for (const lokasi of dataParkir) {
                 try {
@@ -1371,10 +1279,6 @@
             // Tunggu semua perhitungan selesai
             await new Promise(resolve => setTimeout(resolve, 500));
             hideLoading();
-        }
-
-        function delay(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
         }
 
         function showLoading(message) {
@@ -1447,9 +1351,6 @@
                 if (isRefreshing) return;
                 isRefreshing = true;
                 
-                const btn = document.getElementById('refreshBtn');
-                if (btn) btn.classList.add('loading');
-                
                 const url = `https://raw.githubusercontent.com/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/main/${CONFIG.DATA_FILE}?t=${Date.now()}`;
                 console.log('🌐 Fetching data from:', url);
                 
@@ -1473,11 +1374,8 @@
                 // Process dan update UI
                 processLoadedData(data);
                 
-                // Update last refresh time
-                lastRefreshTime = Date.now();
-                
                 // Show success notification
-                showRefreshNotification(true, `Update: ${data.metadata?.last_updated ? new Date(data.metadata.last_updated).toLocaleTimeString('id-ID') : 'baru saja'}`);
+                showRefreshNotification(true, `Data diperbarui`);
                 
                 console.log('✅ Data loaded successfully');
                 return data;
@@ -1504,8 +1402,6 @@
                 
             } finally {
                 isRefreshing = false;
-                const btn = document.getElementById('refreshBtn');
-                if (btn) btn.classList.remove('loading');
             }
         }
 
@@ -1531,21 +1427,14 @@
         function updateStatistics(data) {
             if (!data.statistics) return;
             
-            // Update counters di compact header
+            // Update counters
             const busEl = document.getElementById('totalBus');
             const mobilEl = document.getElementById('totalMobil');
             const motorEl = document.getElementById('totalMotor');
-            const locationsEl = document.getElementById('totalLocations');
             
-            if (busEl) busEl.textContent = data.statistics.total_available_bus || 0;
-            if (mobilEl) mobilEl.textContent = data.statistics.total_available_mobil || 0;
-            if (motorEl) motorEl.textContent = data.statistics.total_available_motor || 0;
-            if (locationsEl) locationsEl.textContent = data.metadata?.total_locations || dataParkir.length;
-            
-            // Format numbers dengan separator ribuan
-            if (busEl) busEl.textContent = formatNumber(busEl.textContent);
-            if (mobilEl) mobilEl.textContent = formatNumber(mobilEl.textContent);
-            if (motorEl) motorEl.textContent = formatNumber(motorEl.textContent);
+            if (busEl) busEl.textContent = formatNumber(data.statistics.total_available_bus || 0);
+            if (mobilEl) mobilEl.textContent = formatNumber(data.statistics.total_available_mobil || 0);
+            if (motorEl) motorEl.textContent = formatNumber(data.statistics.total_available_motor || 0);
         }
 
         function formatNumber(num) {
@@ -1611,21 +1500,10 @@
             jarakElements.forEach((element) => {
                 const lokasiElement = element.closest('.lokasi-item');
                 if (lokasiElement) {
-                    const lokasiNama = lokasiElement.querySelector('.lokasi-nama');
-                    if (lokasiNama) {
-                        const namaText = lokasiNama.textContent.replace(' ⚠️ OPERASIONAL KHUSUS', '');
-                        const lokasi = dataParkir.find(l => l.nama === namaText);
-                        if (lokasi && lokasi.id === lokasiId) {
-                            element.textContent = `📏 ${formatJarak(jarak)} dari lokasi Anda`;
-                            element.classList.remove('lokasi-jarak-loading');
-                            
-                            // Highlight jika sangat dekat (< 500m)
-                            if (jarak < 0.5) {
-                                element.style.background = 'linear-gradient(135deg, #d1fae5, #a7f3d0)';
-                                element.style.color = '#065f46';
-                                element.style.borderColor = '#34d399';
-                            }
-                        }
+                    const lokasiDataId = lokasiElement.getAttribute('data-id');
+                    if (lokasiDataId === lokasiId.toString()) {
+                        element.textContent = `${formatJarak(jarak)} dari lokasi Anda`;
+                        element.classList.remove('lokasi-jarak-loading');
                     }
                 }
             });
@@ -1653,8 +1531,8 @@
             if (!btn) return;
             
             btn.disabled = true;
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<span>📍</span> MENCARI...';
+            const originalText = btn.textContent;
+            btn.textContent = 'MENCARI...';
             
             try {
                 if (!userPosition) {
@@ -1681,7 +1559,7 @@
                 // Show success notification
                 const closest = sortedData[0];
                 const jarak = distancesCache.get(closest.id);
-                showRefreshNotification(true, `Terdekat: ${closest.nama} (${formatJarak(jarak)})`);
+                showRefreshNotification(true, `Terdekat: ${closest.nama}`);
                 
                 console.log('✅ Parkir berhasil diurutkan berdasarkan jarak');
                 
@@ -1699,7 +1577,7 @@
                 
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = originalText;
+                btn.textContent = originalText;
             }
         }
 
@@ -1713,33 +1591,6 @@
             const firstItem = document.querySelector('.lokasi-item');
             if (firstItem) {
                 firstItem.classList.add('closest');
-                
-                // Smooth scroll ke lokasi terdekat
-                setTimeout(() => {
-                    firstItem.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center'
-                    });
-                }, 300);
-            }
-        }
-
-        // ====== MANUAL REFRESH ======
-        async function manualRefresh() {
-            if (isRefreshing) return;
-            
-            const btn = document.getElementById('refreshBtn');
-            if (btn) {
-                btn.disabled = true;
-                setTimeout(() => {
-                    btn.disabled = false;
-                }, CONFIG.MANUAL_REFRESH_DELAY);
-            }
-            
-            try {
-                await loadDataFromGitHub(true);
-            } catch (error) {
-                console.error('Manual refresh failed:', error);
             }
         }
 
@@ -1753,15 +1604,15 @@
             dataParkir.forEach((lokasi, index) => {
                 const jarak = distancesCache.get(lokasi.id);
                 const jarakText = jarak ? 
-                    `📏 ${formatJarak(jarak)} dari lokasi Anda` : 
-                    '📏 Mendeteksi lokasi...';
+                    `${formatJarak(jarak)} dari lokasi Anda` : 
+                    'Mendeteksi lokasi...';
                 const jarakClass = jarak ? '' : 'lokasi-jarak-loading';
                 
                 const isKridosono = lokasi.nama === "STADION KRIDOSONO";
                 const kridosonoClass = isKridosono ? ' kridosono' : '';
-                const kridosonoBadge = isKridosono ? '<span class="kridosono-badge">⚠️ OPERASIONAL KHUSUS</span>' : '';
+                const kridosonoBadge = isKridosono ? '<span class="kridosono-badge">OPERASIONAL KHUSUS</span>' : '';
                 
-                // Ambil kapasitas dari data (support new and old format)
+                // Ambil kapasitas dari data
                 let kapasitasBus = lokasi.bus?.available || lokasi.bus || 0;
                 let kapasitasMobil = lokasi.mobil?.available || lokasi.mobil || 0;
                 let kapasitasMotor = lokasi.motor?.available || lokasi.motor || 0;
@@ -1779,26 +1630,30 @@
                     totalMotor = kapasitasHariIni.motor === 0 ? 0 : (kapasitasHariIni.motor === 150 ? 150 : 250);
                 }
                 
-                // Tentukan status indicator
-                const totalCapacity = totalBus + totalMobil + totalMotor;
-                const availableCapacity = kapasitasBus + kapasitasMobil + kapasitasMotor;
-                const percentage = totalCapacity > 0 ? (availableCapacity / totalCapacity) : 0;
+                // Hitung persentase
+                const persenBus = totalBus > 0 ? Math.round((kapasitasBus / totalBus) * 100) : 0;
+                const persenMobil = totalMobil > 0 ? Math.round((kapasitasMobil / totalMobil) * 100) : 0;
+                const persenMotor = totalMotor > 0 ? Math.round((kapasitasMotor / totalMotor) * 100) : 0;
                 
-                let statusClass = 'status-low'; // Banyak tersedia
-                if (totalCapacity === 0) {
-                    statusClass = 'status-full'; // Tidak ada parkir
-                } else if (availableCapacity === 0) {
-                    statusClass = 'status-full'; // Penuh
-                } else if (percentage < 0.2) {
-                    statusClass = 'status-high'; // Hampir penuh
-                } else if (percentage < 0.5) {
-                    statusClass = 'status-medium'; // Sedang
+                // Tentukan status indicator berdasarkan persentase terendah
+                let statusClass = 'status-low';
+                const minPersentase = Math.min(
+                    totalBus > 0 ? persenBus : 100,
+                    totalMobil > 0 ? persenMobil : 100,
+                    totalMotor > 0 ? persenMotor : 100
+                );
+                
+                if (minPersentase === 0) {
+                    statusClass = 'status-full';
+                } else if (minPersentase < 20) {
+                    statusClass = 'status-high';
+                } else if (minPersentase < 50) {
+                    statusClass = 'status-medium';
                 }
                 
                 html += `
                     <div class="lokasi-item${kridosonoClass}" data-id="${lokasi.id}">
                         <div class="status-indicator ${statusClass}"></div>
-                        <div class="update-badge">BARU</div>
                         <div class="lokasi-header">
                             <div class="lokasi-nama">${lokasi.nama}${kridosonoBadge}</div>
                             <div class="lokasi-id">${index + 1}</div>
@@ -1810,52 +1665,67 @@
                         <div class="kapasitas-container">
                 `;
                 
-                // Tambahkan badge kapasitas hanya untuk kendaraan yang tersedia di lokasi
+                // Tambahkan kapasitas dengan progress bar dan persentase
                 if (totalBus > 0) {
-                    const busPercentage = totalBus > 0 ? (kapasitasBus / totalBus) * 100 : 0;
-                    let busColor = 'badge-bus';
-                    if (kapasitasBus === 0) busColor += ' status-full';
-                    else if (busPercentage < 30) busColor += ' status-high';
-                    else if (busPercentage < 60) busColor += ' status-medium';
-                    
+                    const persenClass = getPercentageClass(persenBus);
                     html += `
-                        <span class="kap-badge ${busColor}">
-                            <span class="kap-icon">🚌</span>
-                            <span class="kap-number">${kapasitasBus}</span>
-                            <span class="kap-label">/${totalBus} Bus</span>
-                        </span>
+                        <div class="kapasitas-item">
+                            <div class="kapasitas-header">
+                                <div class="kapasitas-icon bus">🚌</div>
+                                <div class="kapasitas-label">Bus</div>
+                            </div>
+                            <div class="kapasitas-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill bus" style="width: ${persenBus}%"></div>
+                                </div>
+                                <div class="kapasitas-numbers">
+                                    <div class="kapasitas-available">${kapasitasBus} tersedia</div>
+                                    <div class="kapasitas-percentage ${persenClass}">${persenBus}%</div>
+                                </div>
+                            </div>
+                        </div>
                     `;
                 }
                 
                 if (totalMobil > 0) {
-                    const mobilPercentage = totalMobil > 0 ? (kapasitasMobil / totalMobil) * 100 : 0;
-                    let mobilColor = 'badge-mobil';
-                    if (kapasitasMobil === 0) mobilColor += ' status-full';
-                    else if (mobilPercentage < 30) mobilColor += ' status-high';
-                    else if (mobilPercentage < 60) mobilColor += ' status-medium';
-                    
+                    const persenClass = getPercentageClass(persenMobil);
                     html += `
-                        <span class="kap-badge ${mobilColor}">
-                            <span class="kap-icon">🚗</span>
-                            <span class="kap-number">${kapasitasMobil}</span>
-                            <span class="kap-label">/${totalMobil} Mobil</span>
-                        </span>
+                        <div class="kapasitas-item">
+                            <div class="kapasitas-header">
+                                <div class="kapasitas-icon mobil">🚗</div>
+                                <div class="kapasitas-label">Mobil</div>
+                            </div>
+                            <div class="kapasitas-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill mobil" style="width: ${persenMobil}%"></div>
+                                </div>
+                                <div class="kapasitas-numbers">
+                                    <div class="kapasitas-available">${kapasitasMobil} tersedia</div>
+                                    <div class="kapasitas-percentage ${persenClass}">${persenMobil}%</div>
+                                </div>
+                            </div>
+                        </div>
                     `;
                 }
                 
                 if (totalMotor > 0) {
-                    const motorPercentage = totalMotor > 0 ? (kapasitasMotor / totalMotor) * 100 : 0;
-                    let motorColor = 'badge-motor';
-                    if (kapasitasMotor === 0) motorColor += ' status-full';
-                    else if (motorPercentage < 30) motorColor += ' status-high';
-                    else if (motorPercentage < 60) motorColor += ' status-medium';
-                    
+                    const persenClass = getPercentageClass(persenMotor);
                     html += `
-                        <span class="kap-badge ${motorColor}">
-                            <span class="kap-icon">🏍️</span>
-                            <span class="kap-number">${kapasitasMotor}</span>
-                            <span class="kap-label">/${totalMotor} Motor</span>
-                        </span>
+                        <div class="kapasitas-item">
+                            <div class="kapasitas-header">
+                                <div class="kapasitas-icon motor">🏍️</div>
+                                <div class="kapasitas-label">Motor</div>
+                            </div>
+                            <div class="kapasitas-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill motor" style="width: ${persenMotor}%"></div>
+                                </div>
+                                <div class="kapasitas-numbers">
+                                    <div class="kapasitas-available">${kapasitasMotor} tersedia</div>
+                                    <div class="kapasitas-percentage ${persenClass}">${persenMotor}%</div>
+                                </div>
+                            </div>
+                        </div>
                     `;
                 }
                 
@@ -1865,7 +1735,7 @@
                 if (isKridosono) {
                     html += `
                         <button class="info-operasional-toggle" onclick="toggleInfoOperasional(this)">
-                            <span>📅 INFO OPERASIONAL KHUSUS</span>
+                            <span>INFO OPERASIONAL KHUSUS</span>
                             <span class="toggle-icon">🔽</span>
                         </button>
                         
@@ -1904,10 +1774,10 @@
                 html += `
                         <div class="lokasi-actions">
                             <button class="btn-action btn-map" onclick="bukaLokasiDiMaps('${lokasi.koordinat}', '${lokasi.nama}')">
-                                <span>🗺️</span> Lihat di Maps
+                                LIHAT DI MAPS
                             </button>
                             <button class="btn-action btn-route" onclick="ruteKeLokasi('${lokasi.koordinat}', '${lokasi.nama}')">
-                                <span>📍</span> Rute ke Sini
+                                RUTE KE SINI
                             </button>
                         </div>
                     </div>
@@ -1915,9 +1785,12 @@
             });
             
             container.innerHTML = html;
-            
-            // Highlight updated items
-            highlightUpdatedItems();
+        }
+
+        function getPercentageClass(percentage) {
+            if (percentage >= 60) return 'high';
+            if (percentage >= 30) return 'medium';
+            return 'low';
         }
 
         function getKridosonoKapasitasHariIni() {
@@ -1940,67 +1813,10 @@
             }
         }
 
-        function highlightUpdatedItems() {
-            // Simpan state sebelumnya untuk comparison
-            const previousState = JSON.parse(localStorage.getItem('previous_parkir_state') || '{}');
-            const currentState = {};
-            
-            dataParkir.forEach(lokasi => {
-                currentState[lokasi.id] = {
-                    bus: lokasi.bus?.available || lokasi.bus || 0,
-                    mobil: lokasi.mobil?.available || lokasi.mobil || 0,
-                    motor: lokasi.motor?.available || lokasi.motor || 0
-                };
-            });
-            
-            // Cek perubahan
-            Object.keys(currentState).forEach(id => {
-                const prev = previousState[id];
-                const curr = currentState[id];
-                
-                if (prev && (prev.bus !== curr.bus || prev.mobil !== curr.mobil || prev.motor !== curr.motor)) {
-                    const item = document.querySelector(`.lokasi-item[data-id="${id}"]`);
-                    if (item) {
-                        item.classList.add('updated');
-                        
-                        // Hapus highlight setelah 3 detik
-                        setTimeout(() => {
-                            item.classList.remove('updated');
-                        }, 3000);
-                    }
-                }
-            });
-            
-            // Simpan state untuk next comparison
-            localStorage.setItem('previous_parkir_state', JSON.stringify(currentState));
-        }
-
         // ====== MAPS FUNCTIONS ======
         function bukaLokasiDiMaps(koordinat, nama) {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-            const isAndroid = /Android/.test(navigator.userAgent);
-            
-            let mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(koordinat)}&query_place_id=${encodeURIComponent(nama)}`;
-            
-            if (isIOS) {
-                window.location.href = `maps://?q=${koordinat}&z=16`;
-                
-                setTimeout(() => {
-                    if (document.hasFocus()) {
-                        window.open(mapsUrl, '_blank');
-                    }
-                }, 500);
-            } else if (isAndroid) {
-                window.location.href = `geo:${koordinat}?q=${koordinat}(${encodeURIComponent(nama)})`;
-                
-                setTimeout(() => {
-                    if (document.hasFocus()) {
-                        window.open(mapsUrl, '_blank');
-                    }
-                }, 500);
-            } else {
-                window.open(mapsUrl, '_blank');
-            }
+            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(koordinat)}&query_place_id=${encodeURIComponent(nama)}`;
+            window.open(mapsUrl, '_blank', 'noopener,noreferrer');
         }
 
         function ruteKeLokasi(koordinat, nama) {
@@ -2009,40 +1825,12 @@
                     (pos) => {
                         const userLat = pos.coords.latitude;
                         const userLng = pos.coords.longitude;
-                        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-                        const isAndroid = /Android/.test(navigator.userAgent);
-                        
-                        let mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${koordinat}&travelmode=driving&dir_action=navigate`;
-                        
-                        if (isIOS) {
-                            window.location.href = `maps://?saddr=${userLat},${userLng}&daddr=${koordinat}&dirflg=d`;
-                            
-                            setTimeout(() => {
-                                if (document.hasFocus()) {
-                                    window.open(mapsUrl, '_blank');
-                                }
-                            }, 500);
-                        } else if (isAndroid) {
-                            window.location.href = `google.navigation:q=${koordinat}`;
-                            
-                            setTimeout(() => {
-                                if (document.hasFocus()) {
-                                    window.open(mapsUrl, '_blank');
-                                }
-                            }, 500);
-                        } else {
-                            window.open(mapsUrl, '_blank');
-                        }
+                        const mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${koordinat}&travelmode=driving&dir_action=navigate`;
+                        window.open(mapsUrl, '_blank', 'noopener,noreferrer');
                     },
                     (error) => {
-                        console.error('Geolocation error:', error);
                         alert('Tidak dapat mendeteksi lokasi Anda. Pastikan GPS aktif.');
                         bukaLokasiDiMaps(koordinat, nama);
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
                     }
                 );
             } else {
@@ -2055,10 +1843,8 @@
         function installPWA() {
             if (deferredInstallPrompt) {
                 deferredInstallPrompt.prompt();
-                
                 deferredInstallPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
-                        console.log('✅ PWA installed successfully');
                         closePWAInstall();
                     }
                     deferredInstallPrompt = null;
@@ -2074,16 +1860,33 @@
             localStorage.setItem('pwa_prompt_closed', 'true');
         }
 
+        // ====== RESPONSIVE & DEVICE COMPATIBILITY ======
+        function handleResize() {
+            // Adjust layout untuk device yang sangat kecil
+            const isVerySmall = window.innerWidth < 400;
+            
+            document.querySelectorAll('.lokasi-item').forEach(item => {
+                if (isVerySmall) {
+                    item.style.padding = '16px';
+                } else {
+                    item.style.padding = '';
+                }
+            });
+        }
+
         // ====== INITIALIZATION ======
         document.addEventListener('DOMContentLoaded', async () => {
             console.log('🚀 Initializing Parking System...');
+            
+            // Setup responsive handling
+            window.addEventListener('resize', handleResize);
+            handleResize(); // Initial call
             
             // Setup PWA
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredInstallPrompt = e;
                 
-                // Show install prompt jika belum pernah ditutup
                 if (!localStorage.getItem('pwa_prompt_closed')) {
                     setTimeout(() => {
                         const pwaInstall = document.getElementById('pwaInstall');
@@ -2097,10 +1900,10 @@
             // Service Worker Registration
             if ('serviceWorker' in navigator) {
                 try {
-                    const registration = await navigator.serviceWorker.register('/sw.js');
-                    console.log('✅ Service Worker registered:', registration);
+                    await navigator.serviceWorker.register('/sw.js');
+                    console.log('✅ Service Worker registered');
                 } catch (error) {
-                    console.log('❌ Service Worker registration failed:', error);
+                    console.log('Service Worker registration failed:', error);
                 }
             }
             
@@ -2139,9 +1942,9 @@
                 }
             });
             
-            // Refresh saat online
+            // Online/offline detection
             window.addEventListener('online', function() {
-                loadDataFromGitHub(true);
+                loadDataFromGitHub();
                 showRefreshNotification(true, 'Koneksi kembali');
             });
             
@@ -2149,21 +1952,20 @@
                 showRefreshNotification(false, 'Anda offline');
             });
             
-            // Keyboard shortcuts
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'r' && (e.ctrlKey || e.metaKey)) {
-                    e.preventDefault();
-                    manualRefresh();
-                }
-                if (e.key === 'Escape') {
-                    hideLoading();
-                }
-            });
+            // Touch device optimizations
+            if ('ontouchstart' in window) {
+                document.body.classList.add('touch-device');
+                // Increase tap targets for mobile
+                document.querySelectorAll('.btn-action, .btn-primary').forEach(btn => {
+                    btn.style.minHeight = '52px';
+                });
+            }
             
             // Log readiness
             console.log('✅ Parking System Ready!');
+            console.log('📱 Device:', navigator.userAgent);
             console.log('🔄 Auto-refresh:', CONFIG.AUTO_REFRESH_INTERVAL / 1000, 'seconds');
-            console.log('📊 Locations:', dataParkir.length);
+            console.log('📊 Total locations:', dataParkir.length);
         });
 
         // ====== CLEANUP ======
