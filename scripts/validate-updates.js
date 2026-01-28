@@ -9,7 +9,12 @@ async function validateAndCleanUpdates() {
     console.log('No pending updates file found');
     return { valid: 0, invalid: 0, cleaned: [] };
   }
-  
+  const parkirDataPath = path.join(process.cwd(), 'data/parkir-data.json');
+let validLocations = [];
+if (fs.existsSync(parkirDataPath)) {
+  const parkirData = JSON.parse(fs.readFileSync(parkirDataPath, 'utf8'));
+  validLocations = parkirData.locations.map(l => l.nama);
+}
   let updates = JSON.parse(fs.readFileSync(pendingPath, 'utf8'));
   const originalCount = updates.length;
   
@@ -24,7 +29,9 @@ async function validateAndCleanUpdates() {
     if (!update.location_id || typeof update.location_id !== 'string') {
       errors.push('Missing or invalid location_id');
     }
-    
+    if (update.location_id && !validLocations.includes(update.location_id)) {
+  errors.push(`Invalid location_id: ${update.location_id}`);
+    }
     if (!update.petugas_name || typeof update.petugas_name !== 'string') {
       errors.push('Missing or invalid petugas_name');
     }
