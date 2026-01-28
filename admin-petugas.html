@@ -9,7 +9,6 @@
     <style>
         /* ====== VARIABLES ====== */
         :root {
-            /* Official Police Colors */
             --police-blue: #1E3A8A;
             --police-blue-dark: #1E40AF;
             --police-blue-light: #3B82F6;
@@ -19,17 +18,14 @@
             --police-gray: #374151;
             --police-gray-light: #F3F4F6;
             
-            /* Status Colors */
             --status-available: #10B981;
             --status-warning: #F59E0B;
             --status-full: #DC2626;
             
-            /* Shadows */
             --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
             --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
             --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.2);
             
-            /* Animations */
             --transition-fast: 0.15s ease-out;
             --transition-base: 0.25s ease-out;
         }
@@ -66,80 +62,6 @@
             pointer-events: none;
         }
         
-        /* ====== POLICE BADGE HEADER ====== */
-        .police-header {
-            background: linear-gradient(135deg, var(--police-blue), var(--police-blue-dark));
-            color: var(--police-white);
-            padding: 25px 20px;
-            border-bottom: 4px solid var(--police-gold);
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-heavy);
-        }
-        
-        .police-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h40v40H0z" fill="none"/><path d="M20 0l5 15h15l-12 9 5 15-13-10-13 10 5-15L0 15h15z" fill="rgba(255,255,255,0.1)"/></svg>');
-            opacity: 0.3;
-        }
-        
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .police-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 12px 30px;
-            border-radius: 50px;
-            border: 2px solid var(--police-gold);
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .badge-icon {
-            font-size: 24px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        .badge-text {
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        
-        .header-title {
-            font-size: clamp(24px, 5vw, 32px);
-            font-weight: 800;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .header-subtitle {
-            font-size: clamp(16px, 3vw, 18px);
-            opacity: 0.95;
-            font-weight: 500;
-        }
-        
         /* ====== MAIN CONTAINER ====== */
         .main-container {
             max-width: 800px;
@@ -150,6 +72,7 @@
             overflow: hidden;
             border: 3px solid var(--police-gold);
             position: relative;
+            min-height: 500px;
         }
         
         .main-container::before {
@@ -162,10 +85,17 @@
             background: linear-gradient(90deg, var(--police-blue), var(--police-gold), var(--police-red));
         }
         
-        /* ====== LOGIN SCREEN ====== */
+        /* ====== LOGIN SCREEN (TAMPIL AWAL) ====== */
         .login-screen {
-            padding: 40px 30px;
+            padding: 50px 30px;
             text-align: center;
+            display: block; /* PASTIKAN INI DITAMPILKAN */
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .login-icon {
@@ -234,15 +164,6 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
         
-        .location-select option {
-            font-weight: 600;
-            padding: 15px;
-        }
-        
-        .location-select option:first-child {
-            color: #9CA3AF;
-        }
-        
         .btn-login {
             width: 100%;
             padding: 20px;
@@ -261,55 +182,28 @@
             overflow: hidden;
         }
         
-        .btn-login::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .btn-login:hover::after {
-            left: 100%;
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(30, 58, 138, 0.4);
         }
         
         .btn-login:active {
             transform: scale(0.98);
-            box-shadow: 0 2px 10px rgba(30, 58, 138, 0.4);
         }
         
-        /* ====== DASHBOARD SCREEN ====== */
+        /* ====== DASHBOARD SCREEN (DISEMBUNYIKAN AWAL) ====== */
         .dashboard-screen {
-            display: none;
+            display: none; /* DISEMBUNYIKAN SAAT AWAL */
             animation: fadeIn 0.5s ease-out;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* LOCATION HEADER */
+        /* Location Header */
         .location-header {
             background: linear-gradient(135deg, var(--police-blue), var(--police-blue-dark));
             color: var(--police-white);
             padding: 30px;
             position: relative;
             overflow: hidden;
-        }
-        
-        .location-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M30 0C17.4 0 7.2 10.2 7.2 22.8c0 16.2 22.8 37.2 22.8 37.2s22.8-21 22.8-37.2C52.8 10.2 42.6 0 30 0zm0 30c-4.2 0-7.2-3-7.2-7.2S25.8 15.6 30 15.6s7.2 3 7.2 7.2-3 7.2-7.2 7.2z" fill="rgba(255,255,255,0.1)"/></svg>');
-            opacity: 0.1;
         }
         
         .location-info {
@@ -321,7 +215,6 @@
             font-size: 28px;
             font-weight: 800;
             margin-bottom: 8px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         .location-address {
@@ -348,16 +241,14 @@
             letter-spacing: 0.5px;
         }
         
-        .logout-btn:active {
+        .logout-btn:hover {
             background: rgba(220, 38, 38, 0.8);
-            transform: scale(0.95);
         }
         
-        /* CAPACITY INPUT SECTION */
+        /* Capacity Input Section */
         .capacity-section {
             padding: 40px 30px;
             background: var(--police-gray-light);
-            border-bottom: 3px solid var(--police-gray-light);
         }
         
         .section-title {
@@ -365,17 +256,6 @@
             font-weight: 800;
             color: var(--police-blue);
             margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .section-title::before {
-            content: '';
-            width: 5px;
-            height: 30px;
-            background: linear-gradient(135deg, var(--police-blue), var(--police-gold));
-            border-radius: 3px;
         }
         
         .vehicle-inputs {
@@ -388,14 +268,12 @@
             background: var(--police-white);
             border-radius: 16px;
             padding: 25px;
-            border: 3px solid transparent;
+            border: 3px solid var(--police-gray-light);
             box-shadow: var(--shadow-light);
             transition: all var(--transition-base);
-            position: relative;
-            overflow: hidden;
         }
         
-        .vehicle-card.active {
+        .vehicle-card:hover {
             border-color: var(--police-blue);
             box-shadow: var(--shadow-medium);
             transform: translateY(-2px);
@@ -437,7 +315,7 @@
             font-weight: 600;
         }
         
-        /* NUMBER INPUT */
+        /* Number Input */
         .number-input-container {
             display: flex;
             align-items: center;
@@ -461,11 +339,15 @@
             transition: all var(--transition-base);
         }
         
-        .number-btn:active {
+        .number-btn:hover {
             background: var(--police-blue);
             color: var(--police-white);
-            transform: scale(0.95);
             border-color: var(--police-blue);
+            transform: scale(1.05);
+        }
+        
+        .number-btn:active {
+            transform: scale(0.95);
         }
         
         .number-display {
@@ -479,7 +361,6 @@
             color: var(--police-blue);
             line-height: 1;
             margin-bottom: 5px;
-            text-shadow: 0 2px 4px rgba(30, 58, 138, 0.1);
         }
         
         .number-label {
@@ -488,7 +369,7 @@
             font-weight: 600;
         }
         
-        /* SLIDER */
+        /* Slider */
         .slider-container {
             margin-top: 20px;
         }
@@ -513,7 +394,7 @@
             cursor: pointer;
         }
         
-        /* QUICK ACTIONS */
+        /* Quick Actions */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -535,14 +416,18 @@
             letter-spacing: 0.5px;
         }
         
-        .quick-btn:active {
+        .quick-btn:hover {
             background: var(--police-blue);
             color: var(--police-white);
             border-color: var(--police-blue);
+            transform: translateY(-2px);
+        }
+        
+        .quick-btn:active {
             transform: scale(0.95);
         }
         
-        /* NOTES SECTION */
+        /* Notes Section */
         .notes-section {
             margin-bottom: 40px;
         }
@@ -572,7 +457,7 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
         
-        /* ACTION BUTTONS */
+        /* Action Buttons */
         .action-buttons {
             display: flex;
             gap: 20px;
@@ -594,10 +479,10 @@
             letter-spacing: 0.5px;
         }
         
-        .btn-secondary:active {
+        .btn-secondary:hover {
             background: var(--police-gray);
             color: var(--police-white);
-            transform: scale(0.95);
+            transform: translateY(-2px);
         }
         
         .btn-primary {
@@ -614,28 +499,15 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             box-shadow: 0 4px 20px rgba(30, 58, 138, 0.3);
-            position: relative;
-            overflow: hidden;
         }
         
-        .btn-primary::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .btn-primary:active::after {
-            left: 100%;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(30, 58, 138, 0.4);
         }
         
         .btn-primary:active {
             transform: scale(0.98);
-            box-shadow: 0 2px 10px rgba(30, 58, 138, 0.4);
         }
         
         .btn-primary.loading {
@@ -643,7 +515,7 @@
             cursor: not-allowed;
         }
         
-        /* STATUS MESSAGES */
+        /* Status Messages */
         .status-container {
             margin-bottom: 30px;
         }
@@ -677,12 +549,12 @@
             display: block;
         }
         
-        /* HISTORY SECTION */
+        /* History Section */
         .history-section {
             background: var(--police-white);
             border-radius: 16px;
             padding: 30px;
-            margin-top: 40px;
+            margin: 40px 30px 30px;
             border: 2px solid var(--police-gray-light);
         }
         
@@ -712,9 +584,9 @@
             transition: all var(--transition-base);
         }
         
-        .refresh-history-btn:active {
+        .refresh-history-btn:hover {
             background: var(--police-blue);
-            transform: scale(0.95);
+            transform: translateY(-2px);
         }
         
         .history-list {
@@ -729,7 +601,6 @@
             padding: 20px;
             margin-bottom: 15px;
             border-left: 4px solid var(--police-blue);
-            position: relative;
             animation: fadeInUp 0.3s ease-out backwards;
         }
         
@@ -776,7 +647,7 @@
             font-size: 16px;
         }
         
-        /* LOADING OVERLAY */
+        /* Loading Overlay */
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -806,6 +677,11 @@
             margin-bottom: 20px;
         }
         
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         .loading-text {
             font-size: 18px;
             font-weight: 700;
@@ -817,10 +693,6 @@
             .main-container {
                 margin: 15px auto;
                 border-radius: 16px;
-            }
-            
-            .police-header {
-                padding: 20px 15px;
             }
             
             .login-screen,
@@ -862,31 +734,6 @@
             }
         }
         
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            
-            .location-select {
-                font-size: 16px;
-                padding: 16px;
-            }
-            
-            .vehicle-card {
-                padding: 20px;
-            }
-            
-            .vehicle-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 32px;
-            }
-            
-            .history-section {
-                padding: 20px;
-            }
-        }
-        
         /* UTILITY CLASSES */
         .hidden {
             display: none !important;
@@ -917,30 +764,18 @@
     </style>
 </head>
 <body>
-    <!-- POLICE HEADER -->
-    <div class="police-header">
-        <div class="header-content">
-            <div class="police-badge">
-                <span class="badge-icon">🛡️</span>
-                <span class="badge-text">SATLANTAS POLRESTA YOGYAKARTA</span>
-            </div>
-            <h1 class="header-title">OPERASI KETUPAT PROGO 2026</h1>
-            <p class="header-subtitle">SISTEM INPUT DATA PARKIR - PETUGAS LAPANGAN</p>
-        </div>
-    </div>
-    
     <!-- MAIN CONTAINER -->
     <div class="main-container">
-        <!-- LOGIN SCREEN -->
+        <!-- LOGIN SCREEN (TAMPIL AWAL) -->
         <div class="login-screen" id="loginScreen">
-            <div class="login-icon">🔐</div>
-            <h2 class="login-title">LOGIN PETUGAS PARKIR</h2>
-            <p class="login-subtitle">Pilih lokasi parkir yang Anda tangani untuk melanjutkan</p>
+            <div class="login-icon">🛡️</div>
+            <h2 class="login-title">SATLANTAS POLRESTA YOGYAKARTA</h2>
+            <p class="login-subtitle">OPERASI KETUPAT PROGO 2026 - SISTEM INPUT DATA PARKIR</p>
             
             <div class="location-select-container">
-                <label class="location-label">📍 PILIH LOKASI PARKIR</label>
+                <label class="location-label">📍 PILIH LOKASI PARKIR ANDA</label>
                 <select class="location-select" id="locationSelect">
-                    <option value="">-- Pilih Lokasi --</option>
+                    <option value="">-- Pilih Lokasi Parkir --</option>
                     <option value="SENOPATI">SENOPATI (Bus & Mobil)</option>
                     <option value="NGABEAN">NGABEAN (Bus, Mobil, Motor)</option>
                     <option value="SRI WEDANI">SRI WEDANI (Mobil & Motor)</option>
@@ -964,8 +799,8 @@
             </button>
         </div>
         
-        <!-- DASHBOARD SCREEN -->
-        <div class="dashboard-screen hidden" id="dashboardScreen">
+        <!-- DASHBOARD SCREEN (DISEMBUNYIKAN AWAL) -->
+        <div class="dashboard-screen" id="dashboardScreen">
             <!-- Location Header -->
             <div class="location-header">
                 <button class="logout-btn" onclick="logout()">
@@ -979,7 +814,7 @@
             
             <!-- Capacity Input Section -->
             <div class="capacity-section">
-                <div class="section-title">INPUT KAPASITAS TERSEGIA</div>
+                <div class="section-title">INPUT KAPASITAS TERSEDIA</div>
                 
                 <div class="vehicle-inputs" id="vehicleInputs">
                     <!-- Vehicle cards will be inserted here -->
@@ -1064,7 +899,7 @@
                 'KAWULA ALIT': { bus: 0, mobil: 100, motor: 200 },
                 'PARKIRAN KOMANDO': { bus: 0, mobil: 60, motor: 200 },
                 'EKS TRIO': { bus: 130, mobil: 300, motor: 0 },
-                'STADION KRIDOSONO': { bus: 0, mobil: 0, motor: 0 } // Khusus
+                'STADION KRIDOSONO': { bus: 0, mobil: 0, motor: 0 }
             },
             
             // Alamat lokasi
@@ -1100,17 +935,14 @@
                 motor: 'MOTOR'
             },
             
-            // GitHub Repository
-            GITHUB_REPO: 'satlantaspolrestayka/ops-ketupat-progo-2026',
-            
             // Session timeout (8 jam)
             SESSION_TIMEOUT: 8 * 60 * 60 * 1000,
             
             // Storage keys
             STORAGE_KEYS: {
-                SESSION: 'petugas_session_v2',
-                UPDATES: 'parkir_updates_v2',
-                CURRENT_VALUES: 'current_values_v2'
+                SESSION: 'petugas_session',
+                UPDATES: 'parkir_updates',
+                CURRENT_VALUES: 'current_values'
             }
         };
         
@@ -1121,8 +953,12 @@
         
         // ====== LOGIN FUNCTIONS ======
         function login() {
+            console.log('Login function called');
+            
             const locationSelect = document.getElementById('locationSelect');
             const selectedLocation = locationSelect.value;
+            
+            console.log('Selected location:', selectedLocation);
             
             if (!selectedLocation) {
                 showStatus('Pilih lokasi parkir terlebih dahulu!', 'error');
@@ -1138,8 +974,10 @@
                 loginTime: Date.now()
             }));
             
-            // Load saved values if any
-            loadSavedValues();
+            console.log('Session saved for location:', currentLocation);
+            
+            // Load initial values
+            loadInitialValues();
             
             // Update UI
             updateLocationInfo();
@@ -1147,67 +985,26 @@
             loadHistory();
             
             // Switch screens
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('dashboardScreen').classList.remove('hidden');
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboardScreen').style.display = 'block';
+            
+            console.log('Switched to dashboard screen');
             
             // Show welcome message
             showStatus(`Selamat datang di ${currentLocation}`, 'success', 3000);
+        }
+        
+        function loadInitialValues() {
+            const capacities = CONFIG.LOCATION_CAPACITY[currentLocation];
             
-            // Focus on first input
-            setTimeout(() => {
-                const firstInput = document.querySelector('.vehicle-card');
-                if (firstInput) {
-                    firstInput.classList.add('active');
-                }
-            }, 500);
-        }
-        
-        function loadSavedValues() {
-            try {
-                const saved = localStorage.getItem(`${CONFIG.STORAGE_KEYS.CURRENT_VALUES}_${currentLocation}`);
-                if (saved) {
-                    currentValues = JSON.parse(saved);
-                } else {
-                    // Initialize with current data from GitHub
-                    initializeFromGitHub();
-                }
-            } catch (error) {
-                console.log('Error loading saved values:', error);
-                currentValues = {};
-            }
-        }
-        
-        async function initializeFromGitHub() {
-            try {
-                const response = await fetch(
-                    `https://raw.githubusercontent.com/${CONFIG.GITHUB_REPO}/main/data/parkir-data.json?t=${Date.now()}`
-                );
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    const location = data.locations?.find(loc => 
-                        CONFIG.LOCATION_ADDRESS[loc.nama] === currentLocation || 
-                        loc.nama === currentLocation
-                    );
-                    
-                    if (location) {
-                        currentValues = {
-                            bus: location.bus?.available || location.bus || 0,
-                            mobil: location.mobil?.available || location.mobil || 0,
-                            motor: location.motor?.available || location.motor || 0
-                        };
-                    }
-                }
-            } catch (error) {
-                console.log('Failed to load from GitHub:', error);
-                // Set default to max capacity
-                const capacities = CONFIG.LOCATION_CAPACITY[currentLocation];
-                currentValues = {
-                    bus: capacities.bus || 0,
-                    mobil: capacities.mobil || 0,
-                    motor: capacities.motor || 0
-                };
-            }
+            // Set initial values to full capacity
+            currentValues = {
+                bus: capacities.bus || 0,
+                mobil: capacities.mobil || 0,
+                motor: capacities.motor || 0
+            };
+            
+            console.log('Initial values loaded:', currentValues);
         }
         
         function logout() {
@@ -1216,8 +1013,8 @@
                 currentValues = {};
                 localStorage.removeItem(CONFIG.STORAGE_KEYS.SESSION);
                 
-                document.getElementById('loginScreen').classList.remove('hidden');
-                document.getElementById('dashboardScreen').classList.add('hidden');
+                document.getElementById('loginScreen').style.display = 'block';
+                document.getElementById('dashboardScreen').style.display = 'none';
                 document.getElementById('locationSelect').value = '';
                 
                 showStatus('Anda telah keluar', 'success', 2000);
@@ -1281,14 +1078,8 @@
             const currentValue = currentValues[type] || 0;
             const percentage = maxCapacity > 0 ? (currentValue / maxCapacity) * 100 : 0;
             
-            // Determine color based on percentage
-            let statusColor = '#10B981'; // Available
-            if (currentValue === 0) statusColor = '#DC2626'; // Full
-            else if (percentage < 30) statusColor = '#DC2626'; // Almost full
-            else if (percentage < 60) statusColor = '#F59E0B'; // Medium
-            
             return `
-                <div class="vehicle-card" id="${type}Card">
+                <div class="vehicle-card">
                     <div class="vehicle-header">
                         <div class="vehicle-icon">${CONFIG.VEHICLE_ICONS[type]}</div>
                         <div class="vehicle-info">
@@ -1320,7 +1111,7 @@
                                max="${maxCapacity}" 
                                value="${currentValue}"
                                oninput="updateFromSlider('${type}', this.value)"
-                               style="background: linear-gradient(90deg, ${statusColor} ${percentage}%, #F3F4F6 ${percentage}%)">
+                               style="background: linear-gradient(90deg, #3B82F6 ${percentage}%, #F3F4F6 ${percentage}%)">
                     </div>
                     
                     <div style="display: flex; gap: 10px; margin-top: 20px;">
@@ -1353,18 +1144,9 @@
             const percentage = maxCapacity > 0 ? (value / maxCapacity) * 100 : 0;
             
             if (slider) {
-                // Update slider value
                 slider.value = value;
+                slider.style.background = `linear-gradient(90deg, #3B82F6 ${percentage}%, #F3F4F6 ${percentage}%)`;
                 
-                // Update slider color
-                let color = '#10B981'; // green
-                if (value === 0) color = '#DC2626'; // red
-                else if (percentage < 30) color = '#DC2626'; // red
-                else if (percentage < 60) color = '#F59E0B'; // yellow
-                
-                slider.style.background = `linear-gradient(90deg, ${color} ${percentage}%, #F3F4F6 ${percentage}%)`;
-                
-                // Update display value
                 const valueElement = document.getElementById(`${type}Value`);
                 if (valueElement) {
                     valueElement.textContent = value;
@@ -1381,13 +1163,6 @@
             newValue = Math.max(0, Math.min(maxCapacity, newValue));
             
             setExactValue(type, newValue);
-            
-            // Visual feedback
-            const card = document.getElementById(`${type}Card`);
-            if (card) {
-                card.classList.add('active');
-                setTimeout(() => card.classList.remove('active'), 300);
-            }
         }
         
         function setExactValue(type, value) {
@@ -1396,7 +1171,6 @@
             
             currentValues[type] = value;
             updateSlider(type);
-            saveCurrentValues();
         }
         
         function updateFromSlider(type, value) {
@@ -1431,22 +1205,10 @@
         }
         
         function resetForm() {
-            if (confirm('Reset semua input ke nilai terakhir dari server?')) {
-                initializeFromGitHub().then(() => {
-                    renderVehicleInputs();
-                    showStatus('Form berhasil direset', 'success', 2000);
-                });
-            }
-        }
-        
-        function saveCurrentValues() {
-            try {
-                localStorage.setItem(
-                    `${CONFIG.STORAGE_KEYS.CURRENT_VALUES}_${currentLocation}`,
-                    JSON.stringify(currentValues)
-                );
-            } catch (error) {
-                console.log('Error saving values:', error);
+            if (confirm('Reset semua input ke nilai awal?')) {
+                loadInitialValues();
+                renderVehicleInputs();
+                showStatus('Form berhasil direset', 'success', 2000);
             }
         }
         
@@ -1463,17 +1225,14 @@
             
             if (capacities.bus > 0 && (currentValues.bus < 0 || currentValues.bus > capacities.bus)) {
                 isValid = false;
-                document.getElementById('busCard')?.classList.add('active');
             }
             
             if (capacities.mobil > 0 && (currentValues.mobil < 0 || currentValues.mobil > capacities.mobil)) {
                 isValid = false;
-                document.getElementById('mobilCard')?.classList.add('active');
             }
             
             if (capacities.motor > 0 && (currentValues.motor < 0 || currentValues.motor > capacities.motor)) {
                 isValid = false;
-                document.getElementById('motorCard')?.classList.add('active');
             }
             
             if (!isValid) {
@@ -1484,7 +1243,6 @@
             // Start submission
             isSubmitting = true;
             submitBtn.classList.add('loading');
-            submitBtn.disabled = true;
             showLoading('Menyimpan data...');
             
             try {
@@ -1500,60 +1258,41 @@
                     notes: notes || undefined
                 };
                 
-                // Save to local storage (for history)
+                console.log('Submitting data:', updateData);
+                
+                // Save to history
                 saveToHistory(updateData);
                 
-                // Simulate API call to GitHub
-                await simulateGitHubSubmission(updateData);
+                // Simulate delay for API call
+                await new Promise(resolve => setTimeout(resolve, 1500));
                 
                 // Success
-                setTimeout(() => {
-                    hideLoading();
-                    submitBtn.classList.remove('loading');
-                    submitBtn.disabled = false;
-                    isSubmitting = false;
-                    
-                    showStatus(
-                        `✅ DATA BERHASIL DISIMPAN!<br>${new Date().toLocaleTimeString('id-ID', { 
-                            hour: '2-digit', 
-                            minute: '2-digit' 
-                        })}`,
-                        'success'
-                    );
-                    
-                    // Clear notes
-                    document.getElementById('inputNotes').value = '';
-                    
-                    // Refresh history
-                    loadHistory();
-                    
-                }, 1500);
+                hideLoading();
+                submitBtn.classList.remove('loading');
+                isSubmitting = false;
+                
+                showStatus(
+                    `✅ DATA BERHASIL DISIMPAN!<br>${new Date().toLocaleTimeString('id-ID', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    })}`,
+                    'success'
+                );
+                
+                // Clear notes
+                document.getElementById('inputNotes').value = '';
+                
+                // Refresh history
+                loadHistory();
                 
             } catch (error) {
                 console.error('Submission error:', error);
                 hideLoading();
                 submitBtn.classList.remove('loading');
-                submitBtn.disabled = false;
                 isSubmitting = false;
                 
                 showStatus('❌ Gagal menyimpan data. Coba lagi.', 'error');
             }
-        }
-        
-        async function simulateGitHubSubmission(updateData) {
-            // Simulate network delay
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    console.log('Simulated submission:', updateData);
-                    
-                    // In real implementation, this would:
-                    // 1. POST to GitHub API
-                    // 2. Update JSON file
-                    // 3. Trigger GitHub Actions
-                    
-                    resolve({ success: true, id: Date.now() });
-                }, 1000);
-            });
         }
         
         // ====== HISTORY MANAGEMENT ======
@@ -1652,6 +1391,39 @@
             }
         }
         
+        // ====== SESSION MANAGEMENT ======
+        function checkSession() {
+            try {
+                const session = localStorage.getItem(CONFIG.STORAGE_KEYS.SESSION);
+                if (session) {
+                    const sessionData = JSON.parse(session);
+                    const sessionAge = Date.now() - sessionData.loginTime;
+                    
+                    if (sessionAge < CONFIG.SESSION_TIMEOUT) {
+                        currentLocation = sessionData.location;
+                        
+                        // Load values
+                        loadInitialValues();
+                        
+                        // Switch to dashboard
+                        document.getElementById('loginScreen').style.display = 'none';
+                        document.getElementById('dashboardScreen').style.display = 'block';
+                        
+                        // Update UI
+                        updateLocationInfo();
+                        renderVehicleInputs();
+                        loadHistory();
+                        
+                        showStatus(`Selamat datang kembali di ${currentLocation}`, 'success', 3000);
+                    } else {
+                        localStorage.removeItem(CONFIG.STORAGE_KEYS.SESSION);
+                    }
+                }
+            } catch (error) {
+                console.error('Session check error:', error);
+            }
+        }
+        
         // ====== STATUS & LOADING FUNCTIONS ======
         function showStatus(message, type, duration = 5000) {
             const statusEl = document.getElementById('statusMessage');
@@ -1686,33 +1458,6 @@
             }
         }
         
-        // ====== SESSION MANAGEMENT ======
-        function checkSession() {
-            try {
-                const session = localStorage.getItem(CONFIG.STORAGE_KEYS.SESSION);
-                if (session) {
-                    const sessionData = JSON.parse(session);
-                    const sessionAge = Date.now() - sessionData.loginTime;
-                    
-                    if (sessionAge < CONFIG.SESSION_TIMEOUT) {
-                        currentLocation = sessionData.location;
-                        loadSavedValues();
-                        
-                        document.getElementById('loginScreen').classList.add('hidden');
-                        document.getElementById('dashboardScreen').classList.remove('hidden');
-                        
-                        updateLocationInfo();
-                        renderVehicleInputs();
-                        loadHistory();
-                    } else {
-                        localStorage.removeItem(CONFIG.STORAGE_KEYS.SESSION);
-                    }
-                }
-            } catch (error) {
-                console.error('Session check error:', error);
-            }
-        }
-        
         // ====== INITIALIZATION ======
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚔 Initializing Police Parking System...');
@@ -1722,32 +1467,13 @@
             
             // Auto-focus on location select
             setTimeout(() => {
-                document.getElementById('locationSelect').focus();
+                const select = document.getElementById('locationSelect');
+                if (select) {
+                    select.focus();
+                }
             }, 100);
             
-            // Setup keyboard shortcuts
-            document.addEventListener('keydown', function(e) {
-                // Ctrl + Enter to submit
-                if (e.ctrlKey && e.key === 'Enter' && currentLocation) {
-                    submitData();
-                }
-                
-                // Escape to logout
-                if (e.key === 'Escape' && currentLocation) {
-                    logout();
-                }
-            });
-            
-            // Setup offline detection
-            window.addEventListener('online', function() {
-                showStatus('Koneksi internet kembali', 'success', 3000);
-            });
-            
-            window.addEventListener('offline', function() {
-                showStatus('Anda sedang offline', 'error', 5000);
-            });
-            
-            console.log('✅ System ready');
+            console.log('✅ System ready. Login screen should be visible.');
         });
     </script>
 </body>
