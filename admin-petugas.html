@@ -4,254 +4,468 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="robots" content="noindex, nofollow">
-    <title>Input Parkir - Petugas Ops Ketupat Progo 2026</title>
+    <title>INPUT DATA PARKIR - OPS KETUPAT PROGO 2026</title>
+    
     <style>
+        /* ====== VARIABLES ====== */
         :root {
-            --primary: #059669;
-            --primary-dark: #047857;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-800: #1f2937;
+            /* Official Police Colors */
+            --police-blue: #1E3A8A;
+            --police-blue-dark: #1E40AF;
+            --police-blue-light: #3B82F6;
+            --police-gold: #D4AF37;
+            --police-red: #DC2626;
+            --police-white: #FFFFFF;
+            --police-gray: #374151;
+            --police-gray-light: #F3F4F6;
+            
+            /* Status Colors */
+            --status-available: #10B981;
+            --status-warning: #F59E0B;
+            --status-full: #DC2626;
+            
+            /* Shadows */
+            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
+            --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.2);
+            
+            /* Animations */
+            --transition-fast: 0.15s ease-out;
+            --transition-base: 0.25s ease-out;
         }
         
+        /* ====== RESET & BASE ====== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
             min-height: 100vh;
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #60A5FA 100%);
             padding: 20px;
+            color: var(--police-gray);
+            line-height: 1.5;
+            position: relative;
+            overflow-x: hidden;
         }
         
-        .container {
-            max-width: 500px;
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        /* ====== POLICE BADGE HEADER ====== */
+        .police-header {
+            background: linear-gradient(135deg, var(--police-blue), var(--police-blue-dark));
+            color: var(--police-white);
+            padding: 25px 20px;
+            border-bottom: 4px solid var(--police-gold);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        .police-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h40v40H0z" fill="none"/><path d="M20 0l5 15h15l-12 9 5 15-13-10-13 10 5-15L0 15h15z" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .header-content {
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* ACCESS SCREEN */
-        .access-screen {
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
         
-        .access-logo {
-            font-size: 48px;
-            margin: 20px 0;
-            color: var(--primary);
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--gray-100);
-        }
-        
-        .header h1 {
-            color: var(--gray-800);
-            margin-bottom: 8px;
-            font-size: 22px;
-        }
-        
-        .header p {
-            color: #6b7280;
-            font-size: 14px;
-        }
-        
-        .input-group {
+        .police-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: 2px solid var(--police-gold);
             margin-bottom: 20px;
-            text-align: left;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
         
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--gray-800);
-            font-size: 15px;
+        .badge-icon {
+            font-size: 24px;
+            animation: pulse 2s infinite;
         }
         
-        input, select {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid var(--gray-200);
-            border-radius: 12px;
-            font-size: 16px;
-            transition: border-color 0.2s;
-            background: var(--gray-50);
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
         
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-        }
-        
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 10px;
-        }
-        
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:active {
-            background: var(--primary-dark);
-            transform: scale(0.98);
-        }
-        
-        .error-message {
-            color: var(--danger);
+        .badge-text {
             font-size: 14px;
-            margin-top: 8px;
-            text-align: center;
-            display: none;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
         
-        /* ADMIN PANEL */
-        .admin-panel {
-            display: none;
+        .header-title {
+            font-size: clamp(24px, 5vw, 32px);
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
         
-        .petugas-info {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            text-align: center;
+        .header-subtitle {
+            font-size: clamp(16px, 3vw, 18px);
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        
+        /* ====== MAIN CONTAINER ====== */
+        .main-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: var(--police-white);
+            border-radius: 20px;
+            box-shadow: var(--shadow-heavy);
+            overflow: hidden;
+            border: 3px solid var(--police-gold);
             position: relative;
         }
         
-        .petugas-name {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 5px;
+        .main-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--police-blue), var(--police-gold), var(--police-red));
         }
         
-        .petugas-location {
+        /* ====== LOGIN SCREEN ====== */
+        .login-screen {
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .login-icon {
+            font-size: 64px;
+            margin-bottom: 25px;
+            color: var(--police-blue);
+            filter: drop-shadow(0 4px 8px rgba(30, 58, 138, 0.2));
+        }
+        
+        .login-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--police-blue);
+            margin-bottom: 10px;
+        }
+        
+        .login-subtitle {
+            color: var(--police-gray);
+            margin-bottom: 40px;
             font-size: 16px;
-            opacity: 0.9;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .location-select-container {
+            background: var(--police-gray-light);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px solid var(--police-blue-light);
+            position: relative;
+        }
+        
+        .location-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--police-blue);
+            margin-bottom: 15px;
+            text-align: left;
+            padding-left: 5px;
+        }
+        
+        .location-select {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid var(--police-blue-light);
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--police-blue);
+            background: var(--police-white);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%231E3A8A" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            background-size: 20px;
+        }
+        
+        .location-select:focus {
+            outline: none;
+            border-color: var(--police-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .location-select option {
+            font-weight: 600;
+            padding: 15px;
+        }
+        
+        .location-select option:first-child {
+            color: #9CA3AF;
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--police-blue), var(--police-blue-dark));
+            color: var(--police-white);
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 20px rgba(30, 58, 138, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-login::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-login:hover::after {
+            left: 100%;
+        }
+        
+        .btn-login:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px rgba(30, 58, 138, 0.4);
+        }
+        
+        /* ====== DASHBOARD SCREEN ====== */
+        .dashboard-screen {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* LOCATION HEADER */
+        .location-header {
+            background: linear-gradient(135deg, var(--police-blue), var(--police-blue-dark));
+            color: var(--police-white);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .location-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M30 0C17.4 0 7.2 10.2 7.2 22.8c0 16.2 22.8 37.2 22.8 37.2s22.8-21 22.8-37.2C52.8 10.2 42.6 0 30 0zm0 30c-4.2 0-7.2-3-7.2-7.2S25.8 15.6 30 15.6s7.2 3 7.2 7.2-3 7.2-7.2 7.2z" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.1;
+        }
+        
+        .location-info {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .location-name {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .location-address {
+            font-size: 16px;
+            opacity: 0.95;
+            margin-bottom: 20px;
         }
         
         .logout-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 25px;
+            right: 25px;
             background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
+            color: var(--police-white);
+            border: 2px solid var(--police-gold);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
-            border: none;
             backdrop-filter: blur(10px);
+            transition: all var(--transition-base);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
-        /* KAPASITAS INPUT - MOBILE FRIENDLY */
-        .kapasitas-container {
-            margin: 25px 0;
+        .logout-btn:active {
+            background: rgba(220, 38, 38, 0.8);
+            transform: scale(0.95);
         }
         
-        .kap-input {
-            background: var(--gray-50);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-            display: none; /* Default hidden */
+        /* CAPACITY INPUT SECTION */
+        .capacity-section {
+            padding: 40px 30px;
+            background: var(--police-gray-light);
+            border-bottom: 3px solid var(--police-gray-light);
         }
         
-        .kap-input.active {
-            display: block;
-            border-color: var(--primary);
-            background: white;
-            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.1);
-        }
-        
-        .kap-header {
+        .section-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--police-blue);
+            margin-bottom: 30px;
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 15px;
         }
         
-        .kap-icon {
-            font-size: 32px;
-            width: 50px;
-            height: 50px;
-            background: var(--gray-100);
+        .section-title::before {
+            content: '';
+            width: 5px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--police-blue), var(--police-gold));
+            border-radius: 3px;
+        }
+        
+        .vehicle-inputs {
+            display: grid;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .vehicle-card {
+            background: var(--police-white);
+            border-radius: 16px;
+            padding: 25px;
+            border: 3px solid transparent;
+            box-shadow: var(--shadow-light);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .vehicle-card.active {
+            border-color: var(--police-blue);
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+        }
+        
+        .vehicle-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .vehicle-icon {
+            font-size: 40px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--police-gray-light), var(--police-white));
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 2px solid var(--police-gray-light);
         }
         
-        .kap-label {
+        .vehicle-info {
             flex: 1;
         }
         
-        .kap-label h4 {
-            font-size: 18px;
-            color: var(--gray-800);
-            margin-bottom: 4px;
+        .vehicle-name {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--police-blue);
+            margin-bottom: 5px;
         }
         
-        .kap-label p {
-            font-size: 13px;
-            color: #6b7280;
+        .vehicle-capacity {
+            font-size: 14px;
+            color: var(--police-gray);
+            font-weight: 600;
         }
         
-        /* NUMBER INPUT WITH +/- BUTTONS */
+        /* NUMBER INPUT */
         .number-input-container {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-top: 15px;
+            gap: 20px;
+            margin-bottom: 20px;
         }
         
         .number-btn {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 12px;
-            border: none;
-            background: var(--gray-100);
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--gray-800);
+            border: 2px solid var(--police-blue-light);
+            background: var(--police-white);
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--police-blue);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
+            transition: all var(--transition-base);
         }
         
         .number-btn:active {
-            background: var(--primary);
-            color: white;
+            background: var(--police-blue);
+            color: var(--police-white);
             transform: scale(0.95);
+            border-color: var(--police-blue);
         }
         
         .number-display {
@@ -260,172 +474,420 @@
         }
         
         .number-value {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--primary);
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--police-blue);
             line-height: 1;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(30, 58, 138, 0.1);
         }
         
-        .number-max {
-            font-size: 13px;
-            color: #6b7280;
-            margin-top: 5px;
+        .number-label {
+            font-size: 14px;
+            color: var(--police-gray);
+            font-weight: 600;
+        }
+        
+        /* SLIDER */
+        .slider-container {
+            margin-top: 20px;
+        }
+        
+        .capacity-slider {
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: var(--police-gray-light);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .capacity-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--police-blue);
+            border: 3px solid var(--police-white);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
         }
         
         /* QUICK ACTIONS */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 20px 0;
+            gap: 15px;
+            margin-bottom: 40px;
         }
         
         .quick-btn {
-            padding: 12px;
-            border: 2px solid var(--gray-200);
+            padding: 18px 10px;
+            border: 2px solid var(--police-blue-light);
             border-radius: 12px;
-            background: white;
+            background: var(--police-white);
             font-size: 14px;
-            font-weight: 600;
-            color: var(--gray-800);
+            font-weight: 700;
+            color: var(--police-blue);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all var(--transition-base);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .quick-btn:active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
+            background: var(--police-blue);
+            color: var(--police-white);
+            border-color: var(--police-blue);
+            transform: scale(0.95);
         }
         
-        /* NOTES INPUT */
-        .notes-container {
-            margin: 20px 0;
+        /* NOTES SECTION */
+        .notes-section {
+            margin-bottom: 40px;
+        }
+        
+        .notes-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--police-blue);
+            margin-bottom: 15px;
         }
         
         .notes-input {
             width: 100%;
-            padding: 15px;
-            border: 2px solid var(--gray-200);
+            padding: 20px;
+            border: 2px solid var(--police-blue-light);
             border-radius: 12px;
-            font-size: 15px;
+            font-size: 16px;
             resize: vertical;
-            min-height: 80px;
+            min-height: 100px;
+            transition: all var(--transition-base);
         }
         
         .notes-input:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: var(--police-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        /* ACTION BUTTONS */
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .btn-secondary {
+            flex: 1;
+            padding: 20px;
+            background: var(--police-gray-light);
+            color: var(--police-gray);
+            border: 2px solid var(--police-gray);
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-secondary:active {
+            background: var(--police-gray);
+            color: var(--police-white);
+            transform: scale(0.95);
+        }
+        
+        .btn-primary {
+            flex: 2;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--police-blue), var(--police-blue-dark));
+            color: var(--police-white);
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 20px rgba(30, 58, 138, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:active::after {
+            left: 100%;
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px rgba(30, 58, 138, 0.4);
+        }
+        
+        .btn-primary.loading {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
         
         /* STATUS MESSAGES */
+        .status-container {
+            margin-bottom: 30px;
+        }
+        
         .status-message {
-            padding: 15px;
+            padding: 20px;
             border-radius: 12px;
-            margin: 20px 0;
+            font-size: 16px;
+            font-weight: 600;
             text-align: center;
             display: none;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .status-success {
-            background: #d1fae5;
-            color: #065f46;
+            background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+            color: #065F46;
+            border: 2px solid #10B981;
             display: block;
         }
         
         .status-error {
-            background: #fee2e2;
-            color: #991b1b;
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            color: #991B1B;
+            border: 2px solid #DC2626;
             display: block;
         }
         
-        .loading {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-        }
-        
-        .spinner {
-            border: 4px solid var(--gray-100);
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* UPDATE HISTORY */
-        .update-history {
-            margin-top: 30px;
-            background: var(--gray-50);
+        /* HISTORY SECTION */
+        .history-section {
+            background: var(--police-white);
             border-radius: 16px;
-            padding: 20px;
-            display: none;
+            padding: 30px;
+            margin-top: 40px;
+            border: 2px solid var(--police-gray-light);
         }
         
-        .update-history h3 {
-            margin-bottom: 15px;
-            color: var(--gray-800);
-            font-size: 18px;
+        .history-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .history-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--police-blue);
+        }
+        
+        .refresh-history-btn {
+            margin-left: auto;
+            background: var(--police-blue-light);
+            color: var(--police-white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+        
+        .refresh-history-btn:active {
+            background: var(--police-blue);
+            transform: scale(0.95);
+        }
+        
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
         }
         
         .history-item {
-            padding: 12px 15px;
-            background: white;
+            background: var(--police-gray-light);
             border-radius: 12px;
-            margin-bottom: 10px;
-            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--police-blue);
+            position: relative;
+            animation: fadeInUp 0.3s ease-out backwards;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .history-time {
-            font-weight: 600;
             font-size: 14px;
-            color: var(--gray-800);
-            margin-bottom: 5px;
+            font-weight: 700;
+            color: var(--police-blue);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .history-time::before {
+            content: '🕐';
+            font-size: 12px;
         }
         
         .history-data {
-            font-size: 13px;
-            color: #6b7280;
+            font-size: 15px;
+            color: var(--police-gray);
+            margin-bottom: 10px;
         }
         
-        /* RESPONSIVE */
-        @media (max-width: 480px) {
-            .container {
-                padding: 15px;
+        .history-notes {
+            font-size: 14px;
+            color: #6B7280;
+            font-style: italic;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        
+        .empty-history {
+            text-align: center;
+            padding: 40px 20px;
+            color: #9CA3AF;
+            font-size: 16px;
+        }
+        
+        /* LOADING OVERLAY */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .loading-overlay.active {
+            display: flex;
+        }
+        
+        .loading-spinner {
+            border: 4px solid var(--police-gray-light);
+            border-top: 4px solid var(--police-blue);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--police-blue);
+        }
+        
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 15px auto;
                 border-radius: 16px;
             }
             
-            .petugas-info {
-                padding: 15px;
+            .police-header {
+                padding: 20px 15px;
             }
             
-            .petugas-name {
-                font-size: 18px;
+            .login-screen,
+            .capacity-section {
+                padding: 30px 20px;
+            }
+            
+            .vehicle-inputs {
+                grid-template-columns: 1fr;
             }
             
             .quick-actions {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 15px;
             }
             
             .number-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 22px;
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
             }
             
             .number-value {
-                font-size: 32px;
+                font-size: 36px;
+            }
+            
+            .logout-btn {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-top: 20px;
+                display: block;
+                width: 100%;
             }
         }
         
-        /* HIDE/SHOW UTILITIES */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .location-select {
+                font-size: 16px;
+                padding: 16px;
+            }
+            
+            .vehicle-card {
+                padding: 20px;
+            }
+            
+            .vehicle-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 32px;
+            }
+            
+            .history-section {
+                padding: 20px;
+            }
+        }
+        
+        /* UTILITY CLASSES */
         .hidden {
             display: none !important;
         }
@@ -433,36 +895,52 @@
         .visible {
             display: block !important;
         }
+        
+        /* SCROLLBAR STYLING */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--police-gray-light);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--police-blue-light);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--police-blue);
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- ACCESS SCREEN -->
-        <div class="access-screen" id="accessScreen">
-            <div class="access-logo">🔐</div>
-            <div class="header">
-                <h1>LOGIN PETUGAS PARKIR</h1>
-                <p>Ops Ketupat Progo 2026 - Yogyakarta</p>
+    <!-- POLICE HEADER -->
+    <div class="police-header">
+        <div class="header-content">
+            <div class="police-badge">
+                <span class="badge-icon">🛡️</span>
+                <span class="badge-text">SATLANTAS POLRESTA YOGYAKARTA</span>
             </div>
+            <h1 class="header-title">OPERASI KETUPAT PROGO 2026</h1>
+            <p class="header-subtitle">SISTEM INPUT DATA PARKIR - PETUGAS LAPANGAN</p>
+        </div>
+    </div>
+    
+    <!-- MAIN CONTAINER -->
+    <div class="main-container">
+        <!-- LOGIN SCREEN -->
+        <div class="login-screen" id="loginScreen">
+            <div class="login-icon">🔐</div>
+            <h2 class="login-title">LOGIN PETUGAS PARKIR</h2>
+            <p class="login-subtitle">Pilih lokasi parkir yang Anda tangani untuk melanjutkan</p>
             
-            <div class="input-group">
-                <label for="accessCode">Kode Petugas</label>
-                <input 
-                    type="password" 
-                    id="accessCode" 
-                    placeholder="Contoh: P001SEN"
-                    maxlength="7"
-                    autocapitalize="characters"
-                >
-                <p style="font-size: 13px; color: #6b7280; margin-top: 5px;">
-                    *Kode 7 digit (P + 3 angka + inisial lokasi)
-                </p>
-            </div>
-            
-            <div class="input-group">
-                <label for="locationSelect">Atau pilih lokasi:</label>
-                <select id="locationSelect" onchange="selectLocation()">
-                    <option value="">-- Pilih Lokasi Parkir --</option>
+            <div class="location-select-container">
+                <label class="location-label">📍 PILIH LOKASI PARKIR</label>
+                <select class="location-select" id="locationSelect">
+                    <option value="">-- Pilih Lokasi --</option>
                     <option value="SENOPATI">SENOPATI (Bus & Mobil)</option>
                     <option value="NGABEAN">NGABEAN (Bus, Mobil, Motor)</option>
                     <option value="SRI WEDANI">SRI WEDANI (Mobil & Motor)</option>
@@ -477,189 +955,100 @@
                     <option value="KAWULA ALIT">KAWULA ALIT (Mobil & Motor)</option>
                     <option value="PARKIRAN KOMANDO">PARKIRAN KOMANDO (Mobil & Motor)</option>
                     <option value="EKS TRIO">EKS TRIO (Bus & Mobil)</option>
-                    <option value="STADION KRIDOSONO">STADION KRIDOSONO (Khusus)</option>
+                    <option value="STADION KRIDOSONO">STADION KRIDOSONO (Operasional Khusus)</option>
                 </select>
             </div>
             
-            <button class="btn btn-primary" onclick="login()">
-                MASUK SEBAGAI PETUGAS
+            <button class="btn-login" onclick="login()">
+                🚔 MASUK SEBAGAI PETUGAS
             </button>
-            
-            <div class="error-message" id="errorMessage">
-                Kode akses salah! Periksa kembali.
-            </div>
         </div>
         
-        <!-- ADMIN PANEL -->
-        <div class="admin-panel hidden" id="adminPanel">
-            <!-- Petugas Info -->
-            <div class="petugas-info" id="petugasInfo">
+        <!-- DASHBOARD SCREEN -->
+        <div class="dashboard-screen hidden" id="dashboardScreen">
+            <!-- Location Header -->
+            <div class="location-header">
                 <button class="logout-btn" onclick="logout()">
-                    KELUAR
+                    🚪 KELUAR
                 </button>
-                <!-- Diisi oleh JavaScript -->
+                <div class="location-info">
+                    <h2 class="location-name" id="locationName">LOKASI PARKIR</h2>
+                    <p class="location-address" id="locationAddress">ALAMAT LOKASI</p>
+                </div>
             </div>
             
-            <!-- Header -->
-            <div class="header">
-                <h1 id="locationTitle">UPDATE KAPASITAS PARKIR</h1>
-                <p id="locationAddress">Input jumlah kendaraan yang tersedia</p>
+            <!-- Capacity Input Section -->
+            <div class="capacity-section">
+                <div class="section-title">INPUT KAPASITAS TERSEGIA</div>
+                
+                <div class="vehicle-inputs" id="vehicleInputs">
+                    <!-- Vehicle cards will be inserted here -->
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <button class="quick-btn" onclick="setQuickAction('empty')">
+                        KOSONGKAN
+                    </button>
+                    <button class="quick-btn" onclick="setQuickAction('half')">
+                        SETENGAH
+                    </button>
+                    <button class="quick-btn" onclick="setQuickAction('full')">
+                        PENUH
+                    </button>
+                </div>
+                
+                <!-- Notes Section -->
+                <div class="notes-section">
+                    <label class="notes-label">📝 CATATAN TAMBAHAN (Opsional)</label>
+                    <textarea class="notes-input" id="inputNotes" 
+                              placeholder="Contoh: Ada bus pariwisata parkir, kondisi area basah, dll."></textarea>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn-secondary" onclick="resetForm()">
+                        🔄 RESET FORM
+                    </button>
+                    <button class="btn-primary" onclick="submitData()" id="submitBtn">
+                        💾 SIMPAN DATA
+                    </button>
+                </div>
+                
+                <!-- Status Messages -->
+                <div class="status-container">
+                    <div class="status-message" id="statusMessage"></div>
+                </div>
             </div>
             
-            <!-- Kapasitas Input (akan diisi berdasarkan lokasi) -->
-            <div id="kapasitasContainer" class="kapasitas-container">
-                <!-- Diisi oleh JavaScript -->
-            </div>
-            
-            <!-- Notes -->
-            <div class="notes-container">
-                <label for="inputNotes">📝 Catatan Tambahan (opsional):</label>
-                <textarea 
-                    class="notes-input" 
-                    id="inputNotes" 
-                    placeholder="Contoh: Ada 5 bus pariwisata, area basah, dll."
-                ></textarea>
-            </div>
-            
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-                <button class="quick-btn" onclick="setQuickAction('empty')">
-                    KOSONG
-                </button>
-                <button class="quick-btn" onclick="setQuickAction('half')">
-                    SETENGAH
-                </button>
-                <button class="quick-btn" onclick="setQuickAction('full')">
-                    PENUH
-                </button>
-            </div>
-            
-            <!-- Action Buttons -->
-            <div style="display: flex; gap: 10px; margin: 25px 0;">
-                <button class="btn btn-secondary" onclick="resetForm()" style="flex: 1;">
-                    🔄 RESET
-                </button>
-                <button class="btn btn-primary" onclick="submitUpdate()" style="flex: 2;">
-                    💾 SIMPAN DATA
-                </button>
-            </div>
-            
-            <!-- Loading & Status -->
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p>Menyimpan data...</p>
-            </div>
-            
-            <div class="status-message" id="statusMessage"></div>
-            
-            <!-- Update History -->
-            <div class="update-history" id="updateHistory">
-                <h3>📋 Riwayat Update Hari Ini</h3>
-                <div id="historyList">
-                    <!-- Diisi oleh JavaScript -->
+            <!-- History Section -->
+            <div class="history-section">
+                <div class="history-header">
+                    <h3 class="history-title">📋 RIWAYAT UPDATE</h3>
+                    <button class="refresh-history-btn" onclick="loadHistory()">
+                        🔄 REFRESH
+                    </button>
+                </div>
+                
+                <div class="history-list" id="historyList">
+                    <div class="empty-history">
+                        📝 Belum ada data update
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
+    
+    <!-- LOADING OVERLAY -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">Memproses...</div>
+    </div>
+    
     <script>
-        // ====== KONFIGURASI ======
+        // ====== KONFIGURASI SISTEM ======
         const CONFIG = {
-            // Kode akses petugas
-            VALID_CODES: {
-                'P001SEN': { 
-                    name: "Budi Santoso", 
-                    location: "SENOPATI", 
-                    id: 1,
-                    types: ['bus', 'mobil']  // Hanya bus dan mobil
-                },
-                'P002NGA': { 
-                    name: "Sari Wijaya", 
-                    location: "NGABEAN", 
-                    id: 2,
-                    types: ['bus', 'mobil', 'motor']
-                },
-                'P003SRI': { 
-                    name: "Agus Pratama", 
-                    location: "SRI WEDANI", 
-                    id: 3,
-                    types: ['mobil', 'motor']
-                },
-                'P004SPR': { 
-                    name: "Dewi Lestari", 
-                    location: "SPRAGA", 
-                    id: 4,
-                    types: ['mobil']
-                },
-                'P005RAM': { 
-                    name: "Joko Susilo", 
-                    location: "RAMAI MALL", 
-                    id: 5,
-                    types: ['mobil', 'motor']
-                },
-                'P006GRZ': { 
-                    name: "Linda Hartati", 
-                    location: "GRAND ZURI", 
-                    id: 6,
-                    types: ['bus', 'mobil']
-                },
-                'P007EXM': { 
-                    name: "Rudi Hermawan", 
-                    location: "EX MENARA CAFE", 
-                    id: 7,
-                    types: ['bus', 'mobil']
-                },
-                'P008MAL': { 
-                    name: "Maya Indah", 
-                    location: "MALIOBORO II", 
-                    id: 8,
-                    types: ['mobil', 'motor']
-                },
-                'P009MA3': { 
-                    name: "Ahmad Fauzi", 
-                    location: "MALIOBORO III", 
-                    id: 9,
-                    types: ['mobil']
-                },
-                'P010UTA': { 
-                    name: "Siti Nurhaliza", 
-                    location: "UTARA CAVINTON", 
-                    id: 10,
-                    types: ['bus', 'mobil']
-                },
-                'P011GEM': { 
-                    name: "Hendra Setiawan", 
-                    location: "GEMBIRA LOKA", 
-                    id: 11,
-                    types: ['bus', 'mobil', 'motor']
-                },
-                'P012KAW': { 
-                    name: "Rina Novita", 
-                    location: "KAWULA ALIT", 
-                    id: 12,
-                    types: ['mobil', 'motor']
-                },
-                'P013PAR': { 
-                    name: "Andi Saputra", 
-                    location: "PARKIRAN KOMANDO", 
-                    id: 13,
-                    types: ['mobil', 'motor']
-                },
-                'P014EKS': { 
-                    name: "Dian Pertiwi", 
-                    location: "EKS TRIO", 
-                    id: 14,
-                    types: ['bus', 'mobil']
-                },
-                'P015KRI': { 
-                    name: "Eko Prasetyo", 
-                    location: "STADION KRIDOSONO", 
-                    id: 15,
-                    types: [] // Khusus, akan dihandle terpisah
-                }
-            },
-            
-            // Kapasitas maksimal (total) untuk setiap lokasi
+            // Kapasitas maksimal setiap lokasi
             LOCATION_CAPACITY: {
                 'SENOPATI': { bus: 62, mobil: 200, motor: 0 },
                 'NGABEAN': { bus: 60, mobil: 80, motor: 100 },
@@ -697,104 +1086,111 @@
                 'STADION KRIDOSONO': 'JL YOS SUDARSO'
             },
             
-            // GitHub Configuration
+            // Ikon untuk setiap jenis kendaraan
+            VEHICLE_ICONS: {
+                bus: '🚌',
+                mobil: '🚗', 
+                motor: '🏍️'
+            },
+            
+            // Nama lengkap untuk display
+            VEHICLE_NAMES: {
+                bus: 'BUS',
+                mobil: 'MOBIL',
+                motor: 'MOTOR'
+            },
+            
+            // GitHub Repository
             GITHUB_REPO: 'satlantaspolrestayka/ops-ketupat-progo-2026',
             
             // Session timeout (8 jam)
-            SESSION_TIMEOUT: 8 * 60 * 60 * 1000
+            SESSION_TIMEOUT: 8 * 60 * 60 * 1000,
+            
+            // Storage keys
+            STORAGE_KEYS: {
+                SESSION: 'petugas_session_v2',
+                UPDATES: 'parkir_updates_v2',
+                CURRENT_VALUES: 'current_values_v2'
+            }
         };
         
         // ====== STATE MANAGEMENT ======
-        let currentUser = null;
-        let currentLocationData = null;
-        let currentValues = { bus: 0, mobil: 0, motor: 0 };
+        let currentLocation = null;
+        let currentValues = {};
+        let isSubmitting = false;
         
-        // ====== FUNGSI LOGIN ======
+        // ====== LOGIN FUNCTIONS ======
         function login() {
-            const accessCode = document.getElementById('accessCode').value.toUpperCase().trim();
-            const locationSelect = document.getElementById('locationSelect').value;
-            const errorMessage = document.getElementById('errorMessage');
+            const locationSelect = document.getElementById('locationSelect');
+            const selectedLocation = locationSelect.value;
             
-            // Reset error
-            errorMessage.style.display = 'none';
+            if (!selectedLocation) {
+                showStatus('Pilih lokasi parkir terlebih dahulu!', 'error');
+                locationSelect.focus();
+                return;
+            }
             
-            let userData = null;
+            currentLocation = selectedLocation;
             
-            // Coba login dengan kode akses
-            if (accessCode && CONFIG.VALID_CODES[accessCode]) {
-                userData = CONFIG.VALID_CODES[accessCode];
-            } 
-            // Coba login dengan pilihan lokasi
-            else if (locationSelect) {
-                const foundCode = Object.keys(CONFIG.VALID_CODES).find(code => 
-                    CONFIG.VALID_CODES[code].location === locationSelect
-                );
-                if (foundCode) {
-                    userData = CONFIG.VALID_CODES[foundCode];
+            // Save session
+            localStorage.setItem(CONFIG.STORAGE_KEYS.SESSION, JSON.stringify({
+                location: currentLocation,
+                loginTime: Date.now()
+            }));
+            
+            // Load saved values if any
+            loadSavedValues();
+            
+            // Update UI
+            updateLocationInfo();
+            renderVehicleInputs();
+            loadHistory();
+            
+            // Switch screens
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboardScreen').classList.remove('hidden');
+            
+            // Show welcome message
+            showStatus(`Selamat datang di ${currentLocation}`, 'success', 3000);
+            
+            // Focus on first input
+            setTimeout(() => {
+                const firstInput = document.querySelector('.vehicle-card');
+                if (firstInput) {
+                    firstInput.classList.add('active');
                 }
-            }
-            
-            if (userData) {
-                // Set current user
-                currentUser = {
-                    ...userData,
-                    loginTime: Date.now(),
-                    code: accessCode || Object.keys(CONFIG.VALID_CODES).find(
-                        code => CONFIG.VALID_CODES[code].name === userData.name
-                    )
-                };
-                
-                // Save to localStorage
-                localStorage.setItem('petugas_session', JSON.stringify(currentUser));
-                
-                // Load initial data
-                loadInitialData();
-                
-                // Switch screens
-                document.getElementById('accessScreen').classList.add('hidden');
-                document.getElementById('adminPanel').classList.remove('hidden');
-                
-                // Update UI
-                updatePetugasInfo();
-                renderLocationForm();
-                loadUpdateHistory();
-                
-            } else {
-                errorMessage.style.display = 'block';
-                document.getElementById('accessCode').focus();
-            }
+            }, 500);
         }
         
-        function selectLocation() {
-            const locationSelect = document.getElementById('locationSelect').value;
-            if (locationSelect) {
-                // Cari kode yang sesuai
-                const foundCode = Object.keys(CONFIG.VALID_CODES).find(code => 
-                    CONFIG.VALID_CODES[code].location === locationSelect
-                );
-                if (foundCode) {
-                    document.getElementById('accessCode').value = foundCode;
-                }
-            }
-        }
-        
-        // ====== LOAD INITIAL DATA ======
-        async function loadInitialData() {
-            if (!currentUser) return;
-            
+        function loadSavedValues() {
             try {
-                // Load data dari GitHub (untuk dapatkan data terbaru)
+                const saved = localStorage.getItem(`${CONFIG.STORAGE_KEYS.CURRENT_VALUES}_${currentLocation}`);
+                if (saved) {
+                    currentValues = JSON.parse(saved);
+                } else {
+                    // Initialize with current data from GitHub
+                    initializeFromGitHub();
+                }
+            } catch (error) {
+                console.log('Error loading saved values:', error);
+                currentValues = {};
+            }
+        }
+        
+        async function initializeFromGitHub() {
+            try {
                 const response = await fetch(
                     `https://raw.githubusercontent.com/${CONFIG.GITHUB_REPO}/main/data/parkir-data.json?t=${Date.now()}`
                 );
                 
                 if (response.ok) {
                     const data = await response.json();
-                    const location = data.locations?.find(loc => loc.id === currentUser.id);
+                    const location = data.locations?.find(loc => 
+                        CONFIG.LOCATION_ADDRESS[loc.nama] === currentLocation || 
+                        loc.nama === currentLocation
+                    );
                     
                     if (location) {
-                        currentLocationData = location;
-                        // Set current values dari data terbaru
                         currentValues = {
                             bus: location.bus?.available || location.bus || 0,
                             mobil: location.mobil?.available || location.mobil || 0,
@@ -803,453 +1199,513 @@
                     }
                 }
             } catch (error) {
-                console.log('Gagal load data dari GitHub, menggunakan data default');
+                console.log('Failed to load from GitHub:', error);
+                // Set default to max capacity
+                const capacities = CONFIG.LOCATION_CAPACITY[currentLocation];
+                currentValues = {
+                    bus: capacities.bus || 0,
+                    mobil: capacities.mobil || 0,
+                    motor: capacities.motor || 0
+                };
             }
         }
         
-        // ====== UPDATE UI ======
-        function updatePetugasInfo() {
-            const petugasInfo = document.getElementById('petugasInfo');
-            petugasInfo.innerHTML = `
-                <button class="logout-btn" onclick="logout()">
-                    KELUAR
-                </button>
-                <div class="petugas-name">${currentUser.name}</div>
-                <div class="petugas-location">📍 ${currentUser.location}</div>
-                <div style="font-size: 13px; margin-top: 5px; opacity: 0.8;">
-                    ${new Date().toLocaleTimeString('id-ID', { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
-                    })}
-                </div>
-            `;
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin keluar?')) {
+                currentLocation = null;
+                currentValues = {};
+                localStorage.removeItem(CONFIG.STORAGE_KEYS.SESSION);
+                
+                document.getElementById('loginScreen').classList.remove('hidden');
+                document.getElementById('dashboardScreen').classList.add('hidden');
+                document.getElementById('locationSelect').value = '';
+                
+                showStatus('Anda telah keluar', 'success', 2000);
+            }
         }
         
-        function renderLocationForm() {
-            const container = document.getElementById('kapasitasContainer');
-            const title = document.getElementById('locationTitle');
-            const address = document.getElementById('locationAddress');
+        // ====== UI UPDATE FUNCTIONS ======
+        function updateLocationInfo() {
+            document.getElementById('locationName').textContent = currentLocation;
+            document.getElementById('locationAddress').textContent = CONFIG.LOCATION_ADDRESS[currentLocation] || '';
+        }
+        
+        function renderVehicleInputs() {
+            const container = document.getElementById('vehicleInputs');
+            const capacities = CONFIG.LOCATION_CAPACITY[currentLocation];
             
-            // Update title dan address
-            title.textContent = `UPDATE: ${currentUser.location}`;
-            address.textContent = CONFIG.LOCATION_ADDRESS[currentUser.location];
-            
-            // Get capacities untuk lokasi ini
-            const capacities = CONFIG.LOCATION_CAPACITY[currentUser.location];
-            
-            // Render input fields HANYA untuk tipe kendaraan yang tersedia
             let html = '';
             
-            // Fungsi helper untuk render satu tipe kendaraan
-            const renderVehicleInput = (type, label, icon, maxCapacity) => {
-                if (maxCapacity === 0) return ''; // Skip jika kapasitas 0
-                
-                const currentValue = currentValues[type] || 0;
-                
-                return `
-                    <div class="kap-input active" id="${type}Input">
-                        <div class="kap-header">
-                            <div class="kap-icon">${icon}</div>
-                            <div class="kap-label">
-                                <h4>${label}</h4>
-                                <p>Kapasitas tersedia saat ini</p>
-                            </div>
-                        </div>
-                        
-                        <div class="number-input-container">
-                            <button class="number-btn" onclick="changeValue('${type}', -5)">
-                                −5
-                            </button>
-                            
-                            <div class="number-display">
-                                <div class="number-value" id="${type}Value">${currentValue}</div>
-                                <div class="number-max">Max: ${maxCapacity}</div>
-                            </div>
-                            
-                            <button class="number-btn" onclick="changeValue('${type}', 5)">
-                                +5
-                            </button>
-                        </div>
-                        
-                        <div style="display: flex; gap: 8px; margin-top: 15px;">
-                            <button class="quick-btn" onclick="setValue('${type}', 0)" style="flex: 1; font-size: 13px;">
-                                KOSONG
-                            </button>
-                            <button class="quick-btn" onclick="setValue('${type}', ${Math.floor(maxCapacity / 2)})" style="flex: 1; font-size: 13px;">
-                                SETENGAH
-                            </button>
-                            <button class="quick-btn" onclick="setValue('${type}', ${maxCapacity})" style="flex: 1; font-size: 13px;">
-                                PENUH
-                            </button>
-                        </div>
-                        
-                        <div style="margin-top: 10px;">
-                            <input 
-                                type="range" 
-                                id="${type}Slider"
-                                min="0" 
-                                max="${maxCapacity}" 
-                                value="${currentValue}"
-                                oninput="updateFromSlider('${type}', this.value)"
-                                style="width: 100%; height: 8px; border-radius: 4px;"
-                            >
-                        </div>
-                    </div>
-                `;
-            };
-            
-            // Render berdasarkan tipe kendaraan yang tersedia di lokasi ini
+            // Render bus input if available
             if (capacities.bus > 0) {
-                html += renderVehicleInput('bus', 'BUS', '🚌', capacities.bus);
+                html += createVehicleCard('bus', capacities.bus);
             }
             
+            // Render mobil input if available
             if (capacities.mobil > 0) {
-                html += renderVehicleInput('mobil', 'MOBIL', '🚗', capacities.mobil);
+                html += createVehicleCard('mobil', capacities.mobil);
             }
             
+            // Render motor input if available
             if (capacities.motor > 0) {
-                html += renderVehicleInput('motor', 'MOTOR', '🏍️', capacities.motor);
+                html += createVehicleCard('motor', capacities.motor);
             }
             
-            // Handle khusus Kridosono
-            if (currentUser.location === 'STADION KRIDOSONO') {
+            // Special handling for KRIDOSONO
+            if (currentLocation === 'STADION KRIDOSONO') {
                 html += `
-                    <div class="kap-input active" style="background: #fffbeb; border-color: #f59e0b;">
-                        <div class="kap-header">
-                            <div class="kap-icon">⚠️</div>
-                            <div class="kap-label">
-                                <h4>OPERASIONAL KHUSUS</h4>
-                                <p>Parkir hanya buka saat event tertentu</p>
+                    <div class="vehicle-card" style="background: linear-gradient(135deg, #FFFBEB, #FEF3C7); border-color: #F59E0B;">
+                        <div class="vehicle-header">
+                            <div class="vehicle-icon" style="border-color: #F59E0B;">⚠️</div>
+                            <div class="vehicle-info">
+                                <div class="vehicle-name" style="color: #92400E;">OPERASIONAL KHUSUS</div>
+                                <div class="vehicle-capacity" style="color: #B45309;">Parkir hanya saat event</div>
                             </div>
                         </div>
-                        <p style="color: #92400e; font-size: 14px; margin-top: 10px;">
+                        <div style="color: #92400E; font-size: 14px; line-height: 1.6;">
                             • 20-22 April: 30 Mobil, 150 Motor<br>
-                            • 23-26 April: 250 Mobil, 250 Motor
-                        </p>
+                            • 23-26 April: 250 Mobil, 250 Motor<br>
+                            ⏰ Buka: 18.00 WIB
+                        </div>
                     </div>
                 `;
             }
             
             container.innerHTML = html;
             
-            // Update slider positions
-            if (capacities.bus > 0) {
-                updateSliderPosition('bus', currentValues.bus);
-            }
-            if (capacities.mobil > 0) {
-                updateSliderPosition('mobil', currentValues.mobil);
-            }
-            if (capacities.motor > 0) {
-                updateSliderPosition('motor', currentValues.motor);
+            // Update all sliders
+            updateAllSliders();
+        }
+        
+        function createVehicleCard(type, maxCapacity) {
+            const currentValue = currentValues[type] || 0;
+            const percentage = maxCapacity > 0 ? (currentValue / maxCapacity) * 100 : 0;
+            
+            // Determine color based on percentage
+            let statusColor = '#10B981'; // Available
+            if (currentValue === 0) statusColor = '#DC2626'; // Full
+            else if (percentage < 30) statusColor = '#DC2626'; // Almost full
+            else if (percentage < 60) statusColor = '#F59E0B'; // Medium
+            
+            return `
+                <div class="vehicle-card" id="${type}Card">
+                    <div class="vehicle-header">
+                        <div class="vehicle-icon">${CONFIG.VEHICLE_ICONS[type]}</div>
+                        <div class="vehicle-info">
+                            <div class="vehicle-name">${CONFIG.VEHICLE_NAMES[type]}</div>
+                            <div class="vehicle-capacity">Kapasitas: ${maxCapacity} unit</div>
+                        </div>
+                    </div>
+                    
+                    <div class="number-input-container">
+                        <button class="number-btn" onclick="adjustValue('${type}', -5)">
+                            −5
+                        </button>
+                        
+                        <div class="number-display">
+                            <div class="number-value" id="${type}Value">${currentValue}</div>
+                            <div class="number-label">${currentValue} / ${maxCapacity} unit</div>
+                        </div>
+                        
+                        <button class="number-btn" onclick="adjustValue('${type}', 5)">
+                            +5
+                        </button>
+                    </div>
+                    
+                    <div class="slider-container">
+                        <input type="range" 
+                               class="capacity-slider" 
+                               id="${type}Slider"
+                               min="0" 
+                               max="${maxCapacity}" 
+                               value="${currentValue}"
+                               oninput="updateFromSlider('${type}', this.value)"
+                               style="background: linear-gradient(90deg, ${statusColor} ${percentage}%, #F3F4F6 ${percentage}%)">
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button class="quick-btn" onclick="setExactValue('${type}', 0)" style="flex: 1;">
+                            KOSONG
+                        </button>
+                        <button class="quick-btn" onclick="setExactValue('${type}', ${Math.floor(maxCapacity / 2)})" style="flex: 1;">
+                            SETENGAH
+                        </button>
+                        <button class="quick-btn" onclick="setExactValue('${type}', ${maxCapacity})" style="flex: 1;">
+                            PENUH
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function updateAllSliders() {
+            const capacities = CONFIG.LOCATION_CAPACITY[currentLocation];
+            
+            if (capacities.bus > 0) updateSlider('bus');
+            if (capacities.mobil > 0) updateSlider('mobil');
+            if (capacities.motor > 0) updateSlider('motor');
+        }
+        
+        function updateSlider(type) {
+            const slider = document.getElementById(`${type}Slider`);
+            const value = currentValues[type] || 0;
+            const maxCapacity = CONFIG.LOCATION_CAPACITY[currentLocation][type];
+            const percentage = maxCapacity > 0 ? (value / maxCapacity) * 100 : 0;
+            
+            if (slider) {
+                // Update slider value
+                slider.value = value;
+                
+                // Update slider color
+                let color = '#10B981'; // green
+                if (value === 0) color = '#DC2626'; // red
+                else if (percentage < 30) color = '#DC2626'; // red
+                else if (percentage < 60) color = '#F59E0B'; // yellow
+                
+                slider.style.background = `linear-gradient(90deg, ${color} ${percentage}%, #F3F4F6 ${percentage}%)`;
+                
+                // Update display value
+                const valueElement = document.getElementById(`${type}Value`);
+                if (valueElement) {
+                    valueElement.textContent = value;
+                }
             }
         }
         
-        // ====== FUNGSI INPUT HANDLING ======
-        function changeValue(type, delta) {
-            const capacities = CONFIG.LOCATION_CAPACITY[currentUser.location];
-            const maxCapacity = capacities[type];
-            
+        // ====== VALUE ADJUSTMENT FUNCTIONS ======
+        function adjustValue(type, delta) {
+            const maxCapacity = CONFIG.LOCATION_CAPACITY[currentLocation][type];
             let newValue = (currentValues[type] || 0) + delta;
             
-            // Clamp antara 0 dan maxCapacity
+            // Clamp value between 0 and max capacity
             newValue = Math.max(0, Math.min(maxCapacity, newValue));
             
-            setValue(type, newValue);
+            setExactValue(type, newValue);
+            
+            // Visual feedback
+            const card = document.getElementById(`${type}Card`);
+            if (card) {
+                card.classList.add('active');
+                setTimeout(() => card.classList.remove('active'), 300);
+            }
         }
         
-        function setValue(type, value) {
-            const capacities = CONFIG.LOCATION_CAPACITY[currentUser.location];
-            const maxCapacity = capacities[type];
-            
-            // Clamp value
+        function setExactValue(type, value) {
+            const maxCapacity = CONFIG.LOCATION_CAPACITY[currentLocation][type];
             value = Math.max(0, Math.min(maxCapacity, parseInt(value) || 0));
             
             currentValues[type] = value;
-            
-            // Update display
-            const valueElement = document.getElementById(`${type}Value`);
-            const sliderElement = document.getElementById(`${type}Slider`);
-            
-            if (valueElement) valueElement.textContent = value;
-            if (sliderElement) sliderElement.value = value;
-            
-            updateSliderPosition(type, value);
+            updateSlider(type);
+            saveCurrentValues();
         }
         
         function updateFromSlider(type, value) {
-            setValue(type, value);
-        }
-        
-        function updateSliderPosition(type, value) {
-            const slider = document.getElementById(`${type}Slider`);
-            if (!slider) return;
-            
-            const max = parseInt(slider.max);
-            const percentage = (value / max) * 100;
-            
-            // Update slider color based on percentage
-            let color = '#10b981'; // green
-            if (percentage < 30) color = '#ef4444'; // red
-            else if (percentage < 60) color = '#f59e0b'; // yellow
-            
-            slider.style.background = `linear-gradient(90deg, ${color} ${percentage}%, #e5e7eb ${percentage}%)`;
+            setExactValue(type, value);
         }
         
         function setQuickAction(action) {
-            const capacities = CONFIG.LOCATION_CAPACITY[currentUser.location];
+            const capacities = CONFIG.LOCATION_CAPACITY[currentLocation];
             
             switch(action) {
                 case 'empty':
-                    if (capacities.bus > 0) setValue('bus', 0);
-                    if (capacities.mobil > 0) setValue('mobil', 0);
-                    if (capacities.motor > 0) setValue('motor', 0);
+                    if (capacities.bus > 0) setExactValue('bus', 0);
+                    if (capacities.mobil > 0) setExactValue('mobil', 0);
+                    if (capacities.motor > 0) setExactValue('motor', 0);
+                    showStatus('Semua kapasitas dikosongkan', 'success', 2000);
                     break;
                     
                 case 'half':
-                    if (capacities.bus > 0) setValue('bus', Math.floor(capacities.bus / 2));
-                    if (capacities.mobil > 0) setValue('mobil', Math.floor(capacities.mobil / 2));
-                    if (capacities.motor > 0) setValue('motor', Math.floor(capacities.motor / 2));
+                    if (capacities.bus > 0) setExactValue('bus', Math.floor(capacities.bus / 2));
+                    if (capacities.mobil > 0) setExactValue('mobil', Math.floor(capacities.mobil / 2));
+                    if (capacities.motor > 0) setExactValue('motor', Math.floor(capacities.motor / 2));
+                    showStatus('Kapasitas diset ke setengah', 'success', 2000);
                     break;
                     
                 case 'full':
-                    if (capacities.bus > 0) setValue('bus', capacities.bus);
-                    if (capacities.mobil > 0) setValue('mobil', capacities.mobil);
-                    if (capacities.motor > 0) setValue('motor', capacities.motor);
+                    if (capacities.bus > 0) setExactValue('bus', capacities.bus);
+                    if (capacities.mobil > 0) setExactValue('mobil', capacities.mobil);
+                    if (capacities.motor > 0) setExactValue('motor', capacities.motor);
+                    showStatus('Semua kapasitas diisi penuh', 'success', 2000);
                     break;
             }
-            
-            // Show quick feedback
-            showStatus(`Set ke: ${action.toUpperCase()}`, 'success', 2000);
         }
         
         function resetForm() {
-            if (confirm('Reset semua input ke nilai awal?')) {
-                currentValues = { bus: 0, mobil: 0, motor: 0 };
-                renderLocationForm();
-                document.getElementById('inputNotes').value = '';
-                showStatus('Form berhasil direset', 'success', 2000);
+            if (confirm('Reset semua input ke nilai terakhir dari server?')) {
+                initializeFromGitHub().then(() => {
+                    renderVehicleInputs();
+                    showStatus('Form berhasil direset', 'success', 2000);
+                });
             }
         }
         
-        // ====== SUBMIT UPDATE ======
-        async function submitUpdate() {
-            const loadingDiv = document.getElementById('loading');
-            const statusDiv = document.getElementById('statusMessage');
+        function saveCurrentValues() {
+            try {
+                localStorage.setItem(
+                    `${CONFIG.STORAGE_KEYS.CURRENT_VALUES}_${currentLocation}`,
+                    JSON.stringify(currentValues)
+                );
+            } catch (error) {
+                console.log('Error saving values:', error);
+            }
+        }
+        
+        // ====== DATA SUBMISSION ======
+        async function submitData() {
+            if (isSubmitting) return;
             
-            // Validasi
-            const capacities = CONFIG.LOCATION_CAPACITY[currentUser.location];
-            let hasError = false;
+            const submitBtn = document.getElementById('submitBtn');
+            const notes = document.getElementById('inputNotes').value.trim();
+            
+            // Validation
+            const capacities = CONFIG.LOCATION_CAPACITY[currentLocation];
+            let isValid = true;
             
             if (capacities.bus > 0 && (currentValues.bus < 0 || currentValues.bus > capacities.bus)) {
-                hasError = true;
-                document.getElementById('busInput').style.borderColor = '#ef4444';
+                isValid = false;
+                document.getElementById('busCard')?.classList.add('active');
             }
             
             if (capacities.mobil > 0 && (currentValues.mobil < 0 || currentValues.mobil > capacities.mobil)) {
-                hasError = true;
-                document.getElementById('mobilInput').style.borderColor = '#ef4444';
+                isValid = false;
+                document.getElementById('mobilCard')?.classList.add('active');
             }
             
             if (capacities.motor > 0 && (currentValues.motor < 0 || currentValues.motor > capacities.motor)) {
-                hasError = true;
-                document.getElementById('motorInput').style.borderColor = '#ef4444';
+                isValid = false;
+                document.getElementById('motorCard')?.classList.add('active');
             }
             
-            if (hasError) {
+            if (!isValid) {
                 showStatus('Ada nilai yang tidak valid! Periksa kembali.', 'error');
                 return;
             }
             
-            // Show loading
-            loadingDiv.style.display = 'block';
-            statusDiv.style.display = 'none';
+            // Start submission
+            isSubmitting = true;
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+            showLoading('Menyimpan data...');
             
             try {
-                // 1. Create update data
+                // Create update object
                 const updateData = {
-                    location_id: currentUser.id,
-                    location_name: currentUser.location,
-                    petugas_id: currentUser.code,
-                    petugas_name: currentUser.name,
-                    bus: capacities.bus > 0 ? currentValues.bus : undefined,
-                    mobil: capacities.mobil > 0 ? currentValues.mobil : undefined,
-                    motor: capacities.motor > 0 ? currentValues.motor : undefined,
-                    notes: document.getElementById('inputNotes').value.trim(),
+                    location: currentLocation,
                     timestamp: new Date().toISOString(),
-                    status: 'pending'
+                    data: {
+                        bus: capacities.bus > 0 ? currentValues.bus : undefined,
+                        mobil: capacities.mobil > 0 ? currentValues.mobil : undefined,
+                        motor: capacities.motor > 0 ? currentValues.motor : undefined
+                    },
+                    notes: notes || undefined
                 };
                 
-                // 2. Save to localStorage (simulated)
-                saveUpdateToStorage(updateData);
+                // Save to local storage (for history)
+                saveToHistory(updateData);
                 
-                // 3. Simpan ke GitHub via GitHub Issues (simulasi)
-                await simulateGitHubUpdate(updateData);
+                // Simulate API call to GitHub
+                await simulateGitHubSubmission(updateData);
                 
-                // 4. Show success
+                // Success
                 setTimeout(() => {
-                    loadingDiv.style.display = 'none';
+                    hideLoading();
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+                    isSubmitting = false;
+                    
                     showStatus(
-                        `✅ Data berhasil disimpan! (${new Date().toLocaleTimeString('id-ID', { 
+                        `✅ DATA BERHASIL DISIMPAN!<br>${new Date().toLocaleTimeString('id-ID', { 
                             hour: '2-digit', 
                             minute: '2-digit' 
-                        })})`,
+                        })}`,
                         'success'
                     );
                     
-                    // Add to history
-                    addToUpdateHistory(updateData);
+                    // Clear notes
+                    document.getElementById('inputNotes').value = '';
                     
-                    // Show update history section
-                    document.getElementById('updateHistory').style.display = 'block';
+                    // Refresh history
+                    loadHistory();
                     
                 }, 1500);
                 
             } catch (error) {
-                console.error('Error submitting update:', error);
-                loadingDiv.style.display = 'none';
+                console.error('Submission error:', error);
+                hideLoading();
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+                isSubmitting = false;
+                
                 showStatus('❌ Gagal menyimpan data. Coba lagi.', 'error');
             }
         }
         
-        function saveUpdateToStorage(updateData) {
-            // Get existing updates
-            let updates = [];
-            try {
-                updates = JSON.parse(localStorage.getItem('parkir_updates')) || [];
-            } catch (e) {
-                updates = [];
-            }
-            
-            // Add new update with local ID
-            updates.push({
-                ...updateData,
-                local_id: Date.now(),
-                local_saved: new Date().toISOString()
-            });
-            
-            // Save back to localStorage
-            localStorage.setItem('parkir_updates', JSON.stringify(updates));
-            
-            console.log('Update saved locally:', updateData);
-        }
-        
-        async function simulateGitHubUpdate(updateData) {
-            // Simulate API call delay
+        async function simulateGitHubSubmission(updateData) {
+            // Simulate network delay
             return new Promise(resolve => {
                 setTimeout(() => {
-                    console.log('Simulated GitHub update:', updateData);
+                    console.log('Simulated submission:', updateData);
                     
-                    // Untuk implementasi nyata, ini akan POST ke GitHub API
-                    // atau ke GitHub Issues sebagai temporary storage
+                    // In real implementation, this would:
+                    // 1. POST to GitHub API
+                    // 2. Update JSON file
+                    // 3. Trigger GitHub Actions
                     
                     resolve({ success: true, id: Date.now() });
                 }, 1000);
             });
         }
         
-        // ====== UPDATE HISTORY ======
-        function loadUpdateHistory() {
+        // ====== HISTORY MANAGEMENT ======
+        function saveToHistory(updateData) {
+            try {
+                let history = [];
+                const stored = localStorage.getItem(CONFIG.STORAGE_KEYS.UPDATES);
+                
+                if (stored) {
+                    history = JSON.parse(stored);
+                }
+                
+                // Add new update
+                history.unshift({
+                    ...updateData,
+                    id: Date.now()
+                });
+                
+                // Keep only last 50 entries
+                history = history.slice(0, 50);
+                
+                localStorage.setItem(CONFIG.STORAGE_KEYS.UPDATES, JSON.stringify(history));
+                
+            } catch (error) {
+                console.error('Error saving history:', error);
+            }
+        }
+        
+        function loadHistory() {
             const historyList = document.getElementById('historyList');
             
             try {
-                const updates = JSON.parse(localStorage.getItem('parkir_updates')) || [];
+                const stored = localStorage.getItem(CONFIG.STORAGE_KEYS.UPDATES);
+                let history = stored ? JSON.parse(stored) : [];
                 
-                // Filter untuk lokasi ini (hari ini saja)
-                const today = new Date().toLocaleDateString('id-ID');
-                const todayUpdates = updates.filter(update => 
-                    update.location_id === currentUser.id &&
-                    new Date(update.timestamp).toLocaleDateString('id-ID') === today
-                ).slice(-5).reverse(); // 5 terbaru
+                // Filter for current location
+                const locationHistory = history.filter(item => 
+                    item.location === currentLocation
+                ).slice(0, 10); // Show only 10 most recent
                 
-                if (todayUpdates.length === 0) {
-                    historyList.innerHTML = '<p style="color: #6b7280; text-align: center; padding: 20px;">Belum ada update hari ini</p>';
+                if (locationHistory.length === 0) {
+                    historyList.innerHTML = `
+                        <div class="empty-history">
+                            📝 Belum ada data update untuk lokasi ini
+                        </div>
+                    `;
                     return;
                 }
                 
-                let historyHTML = '';
-                todayUpdates.forEach(update => {
-                    const time = new Date(update.timestamp).toLocaleTimeString('id-ID', {
+                let html = '';
+                locationHistory.forEach(item => {
+                    const time = new Date(item.timestamp).toLocaleTimeString('id-ID', {
                         hour: '2-digit',
-                        minute: '2-digit'
+                        minute: '2-digit',
+                        second: '2-digit'
                     });
                     
-                    let vehicleInfo = '';
-                    if (update.bus !== undefined) vehicleInfo += `🚌 ${update.bus} `;
-                    if (update.mobil !== undefined) vehicleInfo += `🚗 ${update.mobil} `;
-                    if (update.motor !== undefined) vehicleInfo += `🏍️ ${update.motor} `;
+                    const date = new Date(item.timestamp).toLocaleDateString('id-ID', {
+                        weekday: 'short',
+                        day: 'numeric',
+                        month: 'short'
+                    });
                     
-                    historyHTML += `
+                    let vehicleData = '';
+                    if (item.data.bus !== undefined) vehicleData += `🚌 ${item.data.bus} `;
+                    if (item.data.mobil !== undefined) vehicleData += `🚗 ${item.data.mobil} `;
+                    if (item.data.motor !== undefined) vehicleData += `🏍️ ${item.data.motor} `;
+                    
+                    html += `
                         <div class="history-item">
-                            <div class="history-time">${time} - ${update.petugas_name}</div>
-                            <div class="history-data">
-                                ${vehicleInfo}
-                                ${update.notes ? `<div style="margin-top: 5px; color: #059669;">📝 ${update.notes}</div>` : ''}
+                            <div class="history-time">
+                                <span>${time}</span>
+                                <span style="margin-left: auto; font-size: 12px; opacity: 0.8;">${date}</span>
                             </div>
+                            <div class="history-data">
+                                ${vehicleData}
+                            </div>
+                            ${item.notes ? `
+                                <div class="history-notes">
+                                    📝 ${item.notes}
+                                </div>
+                            ` : ''}
                         </div>
                     `;
                 });
                 
-                historyList.innerHTML = historyHTML;
-                document.getElementById('updateHistory').style.display = 'block';
+                historyList.innerHTML = html;
                 
             } catch (error) {
                 console.error('Error loading history:', error);
-                historyList.innerHTML = '<p style="color: #ef4444; text-align: center;">Error loading history</p>';
+                historyList.innerHTML = `
+                    <div class="empty-history" style="color: #DC2626;">
+                        ⚠️ Error loading history
+                    </div>
+                `;
             }
         }
         
-        function addToUpdateHistory(updateData) {
-            loadUpdateHistory(); // Refresh
-        }
-        
-        // ====== STATUS MESSAGES ======
+        // ====== STATUS & LOADING FUNCTIONS ======
         function showStatus(message, type, duration = 5000) {
-            const statusDiv = document.getElementById('statusMessage');
+            const statusEl = document.getElementById('statusMessage');
             
-            statusDiv.textContent = message;
-            statusDiv.className = `status-message status-${type}`;
-            statusDiv.style.display = 'block';
-            
-            if (duration > 0) {
-                setTimeout(() => {
-                    statusDiv.style.display = 'none';
-                }, duration);
+            if (statusEl) {
+                statusEl.innerHTML = message;
+                statusEl.className = `status-message status-${type}`;
+                statusEl.style.display = 'block';
+                
+                if (duration > 0) {
+                    setTimeout(() => {
+                        statusEl.style.display = 'none';
+                    }, duration);
+                }
             }
         }
         
-        // ====== LOGOUT ======
-        function logout() {
-            if (confirm('Yakin ingin keluar?')) {
-                currentUser = null;
-                localStorage.removeItem('petugas_session');
-                
-                document.getElementById('accessScreen').classList.remove('hidden');
-                document.getElementById('adminPanel').classList.add('hidden');
-                
-                document.getElementById('accessCode').value = '';
-                document.getElementById('locationSelect').value = '';
-                document.getElementById('errorMessage').style.display = 'none';
+        function showLoading(message) {
+            const overlay = document.getElementById('loadingOverlay');
+            const text = document.getElementById('loadingText');
+            
+            if (overlay && text) {
+                text.textContent = message;
+                overlay.classList.add('active');
+            }
+        }
+        
+        function hideLoading() {
+            const overlay = document.getElementById('loadingOverlay');
+            if (overlay) {
+                overlay.classList.remove('active');
             }
         }
         
         // ====== SESSION MANAGEMENT ======
         function checkSession() {
             try {
-                const savedSession = localStorage.getItem('petugas_session');
-                if (savedSession) {
-                    const sessionData = JSON.parse(savedSession);
+                const session = localStorage.getItem(CONFIG.STORAGE_KEYS.SESSION);
+                if (session) {
+                    const sessionData = JSON.parse(session);
                     const sessionAge = Date.now() - sessionData.loginTime;
                     
                     if (sessionAge < CONFIG.SESSION_TIMEOUT) {
-                        currentUser = sessionData;
-                        document.getElementById('accessScreen').classList.add('hidden');
-                        document.getElementById('adminPanel').classList.remove('hidden');
+                        currentLocation = sessionData.location;
+                        loadSavedValues();
                         
-                        updatePetugasInfo();
-                        renderLocationForm();
-                        loadUpdateHistory();
+                        document.getElementById('loginScreen').classList.add('hidden');
+                        document.getElementById('dashboardScreen').classList.remove('hidden');
+                        
+                        updateLocationInfo();
+                        renderVehicleInputs();
+                        loadHistory();
                     } else {
-                        logout();
+                        localStorage.removeItem(CONFIG.STORAGE_KEYS.SESSION);
                     }
                 }
             } catch (error) {
@@ -1259,30 +1715,39 @@
         
         // ====== INITIALIZATION ======
         document.addEventListener('DOMContentLoaded', function() {
-            // Check session
+            console.log('🚔 Initializing Police Parking System...');
+            
+            // Check existing session
             checkSession();
             
-            // Auto-login from URL parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('token');
+            // Auto-focus on location select
+            setTimeout(() => {
+                document.getElementById('locationSelect').focus();
+            }, 100);
             
-            if (token && CONFIG.VALID_CODES[token.toUpperCase()]) {
-                document.getElementById('accessCode').value = token.toUpperCase();
-                setTimeout(() => login(), 500);
-            }
+            // Setup keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl + Enter to submit
+                if (e.ctrlKey && e.key === 'Enter' && currentLocation) {
+                    submitData();
+                }
+                
+                // Escape to logout
+                if (e.key === 'Escape' && currentLocation) {
+                    logout();
+                }
+            });
             
-            // Auto-focus on access code input
-            document.getElementById('accessCode').focus();
+            // Setup offline detection
+            window.addEventListener('online', function() {
+                showStatus('Koneksi internet kembali', 'success', 3000);
+            });
             
-            // Setup vibration feedback for mobile
-            if ('vibrate' in navigator) {
-                const buttons = document.querySelectorAll('button');
-                buttons.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        navigator.vibrate(50);
-                    });
-                });
-            }
+            window.addEventListener('offline', function() {
+                showStatus('Anda sedang offline', 'error', 5000);
+            });
+            
+            console.log('✅ System ready');
         });
     </script>
 </body>
